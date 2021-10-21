@@ -40,11 +40,11 @@ INSTALL         = /usr/bin/install -c
 INSTALL_PROGRAM = ${INSTALL}
 INSTALL_DATA    = ${INSTALL} -m 644
 
-PACKAGE   = resticbackup
-PROG      = resticbackup
+PACKAGE   = rheostoick
+PROG      = rheostoick
 #VERSION   = 0.0.0
-BUGREPORT = https://github.com/DMBuce/resticbackup/issues
-URL       = https://github.com/DMBuce/resticbackup
+BUGREPORT = https://github.com/DMBuce/rheostoick/issues
+URL       = https://github.com/DMBuce/rheostoick
 
 BINFILES         = $(wildcard bin/*)
 ETCFILES         = $(shell find etc/ -type f)
@@ -71,10 +71,10 @@ $(DESTDIR)$(bindir)/%: bin/%
 $(DESTDIR)$(sysconfdir)/%: etc/%
 	$(INSTALL_DATA) $< $@
 
-$(DESTDIR)$(sysconfdir)/resticbackup.d/hooks/%: etc/resticbackup.d/hooks/%
+$(DESTDIR)$(sysconfdir)/rheostoick.d/hooks/%: etc/rheostoick.d/hooks/%
 	$(INSTALL_PROGRAM) $< $@
 
-$(DESTDIR)$(sysconfdir)/resticbackup.d/password: etc/resticbackup.d/password
+$(DESTDIR)$(sysconfdir)/rheostoick.d/password: etc/rheostoick.d/password
 	$(INSTALL) -m 600 $< $@
 
 # vim: set ft=make:

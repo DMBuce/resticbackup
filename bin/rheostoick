@@ -1,17 +1,17 @@
 #!/bin/bash
 
 # source config
-prog=resticbackup
+prog=rheostoick
 config="/etc/$prog.d/config"
 set -a
 . "$config"
 set +a
 
 # default settings
-RESTICBACKUP_EXCLUDE_FILE="${RESTICBACKUP_EXCLUDE_FILE-/etc/$prog.d/exclude}"
-RESTICBACKUP_LOG_FILE="${RESTICBACKUP_LOG_FILE--}"
-RESTICBACKUP_MOUNTED="${RESTICBACKUP_MOUNTED-1}"
-RESTICBACKUP_PRUNE_ARGS="${RESTICBACKUP_PRUNE_ARGS=--prune --keep-hourly 12 --keep-daily 7 --keep-weekly 4 --keep-monthly 3}"
+RHEOSTOICK_EXCLUDE_FILE="${RHEOSTOICK_EXCLUDE_FILE-/etc/$prog.d/exclude}"
+RHEOSTOICK_LOG_FILE="${RHEOSTOICK_LOG_FILE--}"
+RHEOSTOICK_MOUNTED="${RHEOSTOICK_MOUNTED-1}"
+RHEOSTOICK_PRUNE_ARGS="${RHEOSTOICK_PRUNE_ARGS=--prune --keep-hourly 12 --keep-daily 7 --keep-weekly 4 --keep-monthly 3}"
 
 # vars
 hooks="/etc/$prog.d/hooks"
@@ -52,27 +52,27 @@ elif pids="$(pidof -x "$prog")"; (( $(wc -w <<< "$pids") > 1 )); then
 	echo "One or more other $prog processes are already running: $pids" >&2
 	exit 1
 # check exclude file exists and can be read
-elif [[ ! -r "$RESTICBACKUP_EXCLUDE_FILE" ]]; then
-	echo "Can't read file: $RESTICBACKUP_EXCLUDE_FILE" >&2
+elif [[ ! -r "$RHEOSTOICK_EXCLUDE_FILE" ]]; then
+	echo "Can't read file: $RHEOSTOICK_EXCLUDE_FILE" >&2
 	exit 1
 fi
 
 # start logging
-if [[ "$RESTICBACKUP_LOG_FILE" == - ]]; then
+if [[ "$RHEOSTOICK_LOG_FILE" == - ]]; then
 	: # do nothing
-elif [[ "$RESTICBACKUP_LOG_FILE" == syslog ]]; then
-	[[ -t 1 ]] && echo "Logging to $RESTICBACKUP_LOG_FILE" >&2
+elif [[ "$RHEOSTOICK_LOG_FILE" == syslog ]]; then
+	[[ -t 1 ]] && echo "Logging to $RHEOSTOICK_LOG_FILE" >&2
 	exec &> >(logger -e -t "$prog" --id=$$ -p local0.info)
 else
-	[[ -t 1 ]] && echo "Logging to $RESTICBACKUP_LOG_FILE" >&2
-	mkdir -pv "$(dirname "$RESTICBACKUP_LOG_FILE")"
-	exec &>> "$RESTICBACKUP_LOG_FILE"
+	[[ -t 1 ]] && echo "Logging to $RHEOSTOICK_LOG_FILE" >&2
+	mkdir -pv "$(dirname "$RHEOSTOICK_LOG_FILE")"
+	exec &>> "$RHEOSTOICK_LOG_FILE"
 fi
 
 # sanity checks
 #
 # check mount point
-if (( RESTICBACKUP_MOUNTED != 0 )) && ! mountpoint -q "$RESTIC_REPOSITORY"; then
+if (( RHEOSTOICK_MOUNTED != 0 )) && ! mountpoint -q "$RESTIC_REPOSITORY"; then
 	echo "Not a mount point: $RESTIC_REPOSITORY" >&2
 	exit 1
 # create repo if it doesn't exist
@@ -87,7 +87,7 @@ fi
 
 # print timestamp
 timefmt="%F %T %:z "
-if [[ "$RESTICBACKUP_LOG_FILE" == syslog ]]; then
+if [[ "$RHEOSTOICK_LOG_FILE" == syslog ]]; then
 	timefmt=""
 else
 	echo "=========================="
@@ -110,11 +110,11 @@ retval=0
 case "$action" in
 	backup)
 		# take a backup
-		restic -v --exclude-file="$RESTICBACKUP_EXCLUDE_FILE" backup / || retval=$?
+		restic -v --exclude-file="$RHEOSTOICK_EXCLUDE_FILE" backup / || retval=$?
 	;;
 	prune)
 		# prune old backups
-		restic forget $RESTICBACKUP_PRUNE_ARGS || retval=$?
+		restic forget $RHEOSTOICK_PRUNE_ARGS || retval=$?
 	;;
 esac
 

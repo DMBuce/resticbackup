@@ -4,32 +4,32 @@
 #
 # see `man restic` for details
 #
-#RESTIC_PASSWORD_FILE=/etc/resticbackup.d/password
-#RESTIC_PASSWORD_COMMAND="gpg --quiet --decrypt /etc/resticbackup.d/password.gpg" 
+#RESTIC_PASSWORD_FILE=/etc/rheostoick.d/password
+#RESTIC_PASSWORD_COMMAND="gpg --quiet --decrypt /etc/rheostoick.d/password.gpg" 
 #RESTIC_REPOSITORY=/backup/restic
-#RESTIC_REPOSITORY_FILE=/etc/resticbackup.d/repo
+#RESTIC_REPOSITORY_FILE=/etc/rheostoick.d/repo
 
 # file with paths/patterns to exclude from the backup
 #
 # used in --exclude-file option for `restic backup`
 #
-#RESTICBACKUP_EXCLUDE_FILE=/etc/resticbackup.d/exclude
+#RHEOSTOICK_EXCLUDE_FILE=/etc/rheostoick.d/exclude
 
 # log file
 #
 # use a path to log to a file, '-' to log to stdout,
 # or 'syslog' to log to syslog (requires logger)
 #
-#RESTICBACKUP_LOG_FILE=-
+#RHEOSTOICK_LOG_FILE=-
 
 # is the repository supposed to be mounted?
 #
 # use '1' to check that the repository is a mount point, '0' otherwise
 #
-#RESTICBACKUP_MOUNTED=1
+#RHEOSTOICK_MOUNTED=1
 
 # arguments to pass to `restic forget` when pruning
-#RESTICBACKUP_PRUNE_ARGS="--prune --keep-hourly 12 --keep-daily 7 --keep-weekly 4 --keep-monthly 3"
+#RHEOSTOICK_PRUNE_ARGS="--prune --keep-hourly 12 --keep-daily 7 --keep-weekly 4 --keep-monthly 3"
 
 # hook options
 #
