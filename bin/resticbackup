@@ -87,8 +87,11 @@ fi
 
 # print timestamp
 timefmt="%F %T %:z "
-[[ "$RESTICBACKUP_LOG_FILE" == syslog ]] && timefmt=""
-echo "=========================="
+if [[ "$RESTICBACKUP_LOG_FILE" == syslog ]]; then
+	timefmt=""
+else
+	echo "=========================="
+fi
 date +"$timefmt$prog: start $action"
 
 # be nice
