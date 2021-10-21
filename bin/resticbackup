@@ -25,11 +25,9 @@ usage="Syntax: $prog <backup|prune>
     or 'restic_prune', the action to perform is inferred from the script name.
 "
 
-# set default behavior when called with no arguments
-if [[ $# == 0 && "${0##*/}" == restic_backup ]]; then
-	set -- backup
-elif [[ $# == 0 && "${0##*/}" == restic_prune ]]; then
-	set -- prune
+# run as 'restic foo' when called with no arguments as 'restic_foo'
+if [[ $# == 0 && "${0##*/}" == restic_* ]]; then
+	exec "$prog" "${0##*/restic_}"
 fi
 
 # parse args
