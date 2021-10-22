@@ -24,7 +24,7 @@ The GitHub repository has a PKGBUILD for Arch Linux and a Makefile for other dis
 
 Edit the config file, which is usually at `/etc/rheostoick.d/config`
 or `/usr/local/etc/rheostoick.d/config`.
-You'll probably want to set up a password and repository for restic in the usual way.
+You'll probably want to set up a password and repository for restic using the settings near the top of the file.
 
 Rheostoick can be configured to run any restic command by using config settings starting with `RHEOSTOICK_`.
 There are two examples of this in the default config:
@@ -37,7 +37,9 @@ With these setting in place, `rheostoick backup` will run
 and `rheostoick prune` will run
 `restic forget --prune --keep-hourly 12 --keep-daily 7 --keep-weekly 4 --keep-monthly 3` .
 
-If you were to add the following setting, `rheostoick snap` would run `restic snapshots`
+You can configure rheostoick to run any restic command in this way.
+If you were to add the following setting,
+`rheostoick snap` would run `restic snapshots`
 
     RHEOSTOICK_SNAP=snapshots
 
@@ -48,6 +50,8 @@ and `rheostoick prune`, respectively.
 
     lrwxrwxrwx 1 root root 19 Oct 21 20:43 /etc/cron.daily/restic_backup -> /usr/bin/rheostoick
     lrwxrwxrwx 1 root root 19 Oct 21 20:44 /etc/cron.weekly/rheostoick_prune -> /usr/bin/rheostoick
+
+You can configure rheostoic to log to a file or syslog with the `LOG_FILE` setting.
 
 In the same folder as the config file, there is a `hooks.d` directory where you can place executable hooks to run before or after the restic command.
 Rheostoick will run `*.pre` hooks before the configured restic command,
