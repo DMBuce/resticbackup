@@ -8,7 +8,7 @@
 #RESTIC_REPOSITORY_FILE=/etc/rheostoick.d/repo
 
 # if you define a variable like RHEOSTOICK_FOO=args,
-# then `rheostoic foo` will run `restic args`
+# then `rheostoick foo` will run `restic args`
 RHEOSTOICK_BACKUP="backup -v --exclude-file=/etc/rheostoick.d/exclude /"
 RHEOSTOICK_PRUNE="forget --prune --keep-hourly 12 --keep-daily 7 --keep-weekly 4 --keep-monthly 3"
 

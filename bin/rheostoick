@@ -7,10 +7,8 @@ set -a
 . "$config"
 set +a
 
-# default settings
-LOG_FILE="${LOG_FILE--}"
-
 # vars
+LOG_FILE="${LOG_FILE--}"
 hooks="/etc/$prog.d/hooks"
 usage="Syntax: $prog <action>"
 
@@ -23,15 +21,15 @@ fi
 
 # parse args
 action="$1"
-args_var="RHEOSTOICK_${action^^}"
+action_var="RHEOSTOICK_${action^^}"
 
 # check args
 if (( $# != 1 )); then
 	echo "$usage" >&2
 	exit 1
-# check that args_var was defined in config
-elif [[ -z "${!args_var}" ]]; then
-	echo "$args_var is not defined in config: $config" >&2
+# check that action was defined in config
+elif [[ -z "${!action_var}" ]]; then
+	echo "$action_var is not defined in config: $config" >&2
 	exit 1
 # check repo environment variables
 elif [[ -z "$RESTIC_REPOSITORY" && -z "$RESTIC_REPOSITORY_FILE" ]]; then
@@ -109,7 +107,7 @@ fi
 
 # do the thing
 retval=0
-restic "${!args_var}" || retval=$?
+restic ${!action_var} || retval=$?
 
 # run hooks
 for hook in "$hooks"/*.post; do
