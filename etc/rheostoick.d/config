@@ -1,6 +1,7 @@
 #!bash
 
-# restic environment variables
+# all variables are exported to the environment,
+# so you can define restic environment variables here
 # https://restic.readthedocs.io/en/latest/040_backup.html#environment-variables
 #RESTIC_PASSWORD_FILE=/etc/rheostoick.d/password
 #RESTIC_PASSWORD_COMMAND="gpg --quiet --decrypt /etc/rheostoick.d/password.gpg" 
@@ -12,21 +13,21 @@
 RHEOSTOICK_BACKUP="backup -v --exclude-file=/etc/rheostoick.d/exclude /"
 RHEOSTOICK_PRUNE="forget --prune --keep-hourly 12 --keep-daily 7 --keep-weekly 4 --keep-monthly 3"
 
-# use a path to log to a file, '-' to log to stdout,
+# logging: use a path to log to a file, '-' to log to stdout,
 # or 'syslog' to log to syslog (requires logger)
 #LOG_FILE=-
 
 # hook settings
 #
-# check_integ: spool file where checkmk integrity check results should be written to
+# check-integ: spool file where checkmk integrity check results should be written to
 #
 #CHECKMK_INTEGRITY_SPOOL=/var/lib/check_mk_agent/spool/$((8*24*60*60))_check_restic_integrity
 #
-# check_snaps: spool file where checkmk integrity check results should be written to
+# check-snaps: spool file where checkmk integrity check results should be written to
 #
 #CHECKMK_SNAPSHOTS_SPOOL=/var/lib/check_mk_agent/spool/$((3*24*60*60))_check_restic_snapshots
 #
-# check_snaps: thresholds formatted like period:warn:crit
+# check-snaps: thresholds formatted like period:warn:crit
 #
 #CHECKMK_SNAPSHOTS_THRESHOLDS=1day:10:6
 

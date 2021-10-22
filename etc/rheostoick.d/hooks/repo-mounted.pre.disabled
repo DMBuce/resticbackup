@@ -5,7 +5,7 @@
 action="$1"
 retval="$2"
 
-# bail if we're not called before a prune
+# bail if we're not called before a backup
 if [[ "$action" != backup ]]; then
 	exit
 fi
