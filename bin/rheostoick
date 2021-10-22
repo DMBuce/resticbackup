@@ -80,7 +80,7 @@ for hook in "$hooks"/*.pre; do
 done
 
 # bail if a hook failed
-if (( retval != 0 ));
+if (( retval != 0 )); then
 	echo "Exiting because one or more hooks signaled us to stop: ${failedhooks[*]}" >&2
 	exit $retval
 fi
