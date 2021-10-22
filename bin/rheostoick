@@ -9,11 +9,9 @@ set +a
 
 # default settings
 LOG_FILE="${LOG_FILE--}"
-RHEOSTOICK_MOUNTED="${RHEOSTOICK_MOUNTED-1}"
 
 # vars
 hooks="/etc/$prog.d/hooks"
-hostname="${HOSTNAME%%.*}"
 usage="Syntax: $prog <action>"
 
 # run as 'rheostoick foo' when called as 'restic_foo' or 'rheostoick_foo'
@@ -75,16 +73,10 @@ date +"$timefmt$prog: start $action"
 # be nice
 command -v renice &>/dev/null && renice 10 -p $$
 
-# sanity checks
-#
-# check mount point
-if (( RHEOSTOICK_MOUNTED != 0 )) && ! mountpoint -q "$RESTIC_REPOSITORY"; then
-	echo "Not a mount point: $RESTIC_REPOSITORY" >&2
-	exit 1
 # create repo if it doesn't exist
 # https://restic.readthedocs.io/en/stable/075_scripting.html
 # if repo already exists, `restic init` errors out without overwriting it
-elif ! restic snapshots &>/dev/null && ! restic init; then
+if ! restic snapshots &>/dev/null && ! restic init; then
 	if ! restic init; then
 		echo  "Failed to initialize repository: $RESTIC_REPOSITORY" >&2
 		exit 1
@@ -92,12 +84,28 @@ elif ! restic snapshots &>/dev/null && ! restic init; then
 fi
 
 # run hooks
+r=0
+retval=0
+failedhooks=()
 for hook in "$hooks"/*.pre; do
 	if [[ -x "$hook" ]]; then
 		echo "Running hook: $hook" >&2
+		set -o pipefail
 		"$hook" "$action" "$retval" 2>&1 | sed '1s/^/==> /; 2,$s/^/    /' >&2
+		r=$?
+		if (( r != 0 )); then
+			retval=$r
+			failedhooks+=("${hook##*/}")
+		fi
+		set +o pipefail
 	fi
 done
+
+# bail if a hook failed
+if (( retval != 0 ));
+	echo "Exiting because one or more hooks signaled us to stop: ${failedhooks[*]}" >&2
+	exit $retval
+fi
 
 # do the thing
 retval=0

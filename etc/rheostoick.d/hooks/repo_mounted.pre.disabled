@@ -1,0 +1,18 @@
+#!/bin/bash
+# stop `rheostoick backup` from running if the repository isn't mounted
+
+# parse args
+action="$1"
+retval="$2"
+
+# bail if we're not called before a prune
+if [[ "$action" != backup ]]; then
+	exit
+fi
+
+# check mount point
+if ! mountpoint -q "$RESTIC_REPOSITORY"; then
+	echo "Not a mount point: $RESTIC_REPOSITORY" >&2
+	exit 1
+fi
+

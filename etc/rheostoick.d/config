@@ -12,22 +12,11 @@
 RHEOSTOICK_BACKUP="backup -v --exclude-file=/etc/rheostoick.d/exclude /"
 RHEOSTOICK_PRUNE="forget --prune --keep-hourly 12 --keep-daily 7 --keep-weekly 4 --keep-monthly 3"
 
-# log file
-#
 # use a path to log to a file, '-' to log to stdout,
 # or 'syslog' to log to syslog (requires logger)
-#
 #LOG_FILE=-
 
-# is the repository supposed to be mounted?
-#
-# use '1' to check that the repository is a mount point, '0' otherwise
-#
-#RHEOSTOICK_MOUNTED=1
-
-# arguments to pass to `restic forget` when pruning
-
-# hook options
+# hook settings
 #
 # check_integ: spool file where checkmk integrity check results should be written to
 #
