@@ -8,34 +8,32 @@ set -a
 set +a
 
 # default settings
-RHEOSTOICK_EXCLUDE_FILE="${RHEOSTOICK_EXCLUDE_FILE-/etc/$prog.d/exclude}"
-RHEOSTOICK_LOG_FILE="${RHEOSTOICK_LOG_FILE--}"
+LOG_FILE="${LOG_FILE--}"
 RHEOSTOICK_MOUNTED="${RHEOSTOICK_MOUNTED-1}"
-RHEOSTOICK_PRUNE_ARGS="${RHEOSTOICK_PRUNE_ARGS=--prune --keep-hourly 12 --keep-daily 7 --keep-weekly 4 --keep-monthly 3}"
 
 # vars
 hooks="/etc/$prog.d/hooks"
 hostname="${HOSTNAME%%.*}"
-usage="Syntax: $prog <backup|prune>
+usage="Syntax: $prog <action>"
 
-    Use Restic to perform one or more actions: back up the system or
-    prune backups.
-
-    When called with no arguments, if this script is named 'restic_backup'
-    or 'restic_prune', the action to perform is inferred from the script name.
-"
-
-# run as 'restic foo' when called with no arguments as 'restic_foo'
+# run as 'rheostoick foo' when called as 'restic_foo' or 'rheostoick_foo'
 if [[ $# == 0 && "${0##*/}" == restic_* ]]; then
 	exec "$prog" "${0##*/restic_}"
+elif [[ $# == 0 && "${0##*/}" == ${prog}_* ]]; then
+	exec "$prog" "${0##*/${prog}_}"
 fi
 
 # parse args
 action="$1"
+args_var="RHEOSTOICK_${action^^}"
 
 # check args
-if [[ ! "$action" =~ ^(backup|prune)$ || $# != 1 ]]; then
+if (( $# != 1 )); then
 	echo "$usage" >&2
+	exit 1
+# check that args_var was defined in config
+elif [[ -z "${!args_var}" ]]; then
+	echo "$args_var is not defined in config: $config" >&2
 	exit 1
 # check repo environment variables
 elif [[ -z "$RESTIC_REPOSITORY" && -z "$RESTIC_REPOSITORY_FILE" ]]; then
@@ -51,23 +49,31 @@ elif [[ -z "$RESTIC_PASSWORD_FILE" && -z "$RESTIC_PASSWORD_COMMAND" ]]; then
 elif pids="$(pidof -x "$prog")"; (( $(wc -w <<< "$pids") > 1 )); then
 	echo "One or more other $prog processes are already running: $pids" >&2
 	exit 1
-# check exclude file exists and can be read
-elif [[ ! -r "$RHEOSTOICK_EXCLUDE_FILE" ]]; then
-	echo "Can't read file: $RHEOSTOICK_EXCLUDE_FILE" >&2
-	exit 1
 fi
 
 # start logging
-if [[ "$RHEOSTOICK_LOG_FILE" == - ]]; then
+if [[ "$LOG_FILE" == - ]]; then
 	: # do nothing
-elif [[ "$RHEOSTOICK_LOG_FILE" == syslog ]]; then
-	[[ -t 1 ]] && echo "Logging to $RHEOSTOICK_LOG_FILE" >&2
+elif [[ "$LOG_FILE" == syslog ]]; then
+	[[ -t 1 ]] && echo "Logging to $LOG_FILE" >&2
 	exec &> >(logger -e -t "$prog" --id=$$ -p local0.info)
 else
-	[[ -t 1 ]] && echo "Logging to $RHEOSTOICK_LOG_FILE" >&2
-	mkdir -pv "$(dirname "$RHEOSTOICK_LOG_FILE")"
-	exec &>> "$RHEOSTOICK_LOG_FILE"
+	[[ -t 1 ]] && echo "Logging to $LOG_FILE" >&2
+	mkdir -pv "$(dirname "$LOG_FILE")"
+	exec &>> "$LOG_FILE"
 fi
+
+# print timestamp
+timefmt="%F %T %:z "
+if [[ "$LOG_FILE" == syslog ]]; then
+	timefmt=""
+else
+	echo "=========================="
+fi
+date +"$timefmt$prog: start $action"
+
+# be nice
+command -v renice &>/dev/null && renice 10 -p $$
 
 # sanity checks
 #
@@ -85,18 +91,6 @@ elif ! restic snapshots &>/dev/null && ! restic init; then
 	fi
 fi
 
-# print timestamp
-timefmt="%F %T %:z "
-if [[ "$RHEOSTOICK_LOG_FILE" == syslog ]]; then
-	timefmt=""
-else
-	echo "=========================="
-fi
-date +"$timefmt$prog: start $action"
-
-# be nice
-command -v renice &>/dev/null && renice 10 -p $$
-
 # run hooks
 for hook in "$hooks"/*.pre; do
 	if [[ -x "$hook" ]]; then
@@ -107,16 +101,7 @@ done
 
 # do the thing
 retval=0
-case "$action" in
-	backup)
-		# take a backup
-		restic -v --exclude-file="$RHEOSTOICK_EXCLUDE_FILE" backup / || retval=$?
-	;;
-	prune)
-		# prune old backups
-		restic forget $RHEOSTOICK_PRUNE_ARGS || retval=$?
-	;;
-esac
+restic "${!args_var}" || retval=$?
 
 # run hooks
 for hook in "$hooks"/*.post; do

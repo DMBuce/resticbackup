@@ -1,26 +1,23 @@
 #!bash
 
 # restic environment variables
-#
-# see `man restic` for details
-#
+# https://restic.readthedocs.io/en/latest/040_backup.html#environment-variables
 #RESTIC_PASSWORD_FILE=/etc/rheostoick.d/password
 #RESTIC_PASSWORD_COMMAND="gpg --quiet --decrypt /etc/rheostoick.d/password.gpg" 
 #RESTIC_REPOSITORY=/backup/restic
 #RESTIC_REPOSITORY_FILE=/etc/rheostoick.d/repo
 
-# file with paths/patterns to exclude from the backup
-#
-# used in --exclude-file option for `restic backup`
-#
-#RHEOSTOICK_EXCLUDE_FILE=/etc/rheostoick.d/exclude
+# if you define a variable like RHEOSTOICK_FOO=args,
+# then `rheostoic foo` will run `restic args`
+RHEOSTOICK_BACKUP="backup -v --exclude-file=/etc/rheostoick.d/exclude /"
+RHEOSTOICK_PRUNE="forget --prune --keep-hourly 12 --keep-daily 7 --keep-weekly 4 --keep-monthly 3"
 
 # log file
 #
 # use a path to log to a file, '-' to log to stdout,
 # or 'syslog' to log to syslog (requires logger)
 #
-#RHEOSTOICK_LOG_FILE=-
+#LOG_FILE=-
 
 # is the repository supposed to be mounted?
 #
@@ -29,7 +26,6 @@
 #RHEOSTOICK_MOUNTED=1
 
 # arguments to pass to `restic forget` when pruning
-#RHEOSTOICK_PRUNE_ARGS="--prune --keep-hourly 12 --keep-daily 7 --keep-weekly 4 --keep-monthly 3"
 
 # hook options
 #
