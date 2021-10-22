@@ -16,7 +16,7 @@ Restic + hooks
 Rheostoick is a bash shell script for [Restic](https://restic.net/).
 It runs hooks before and after whatever restic commands you've configured.
 
-### Installation
+### Install
 
 The GitHub repository has a PKGBUILD for Arch Linux and a Makefile for other distros.
 
