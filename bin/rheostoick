@@ -31,16 +31,6 @@ if (( $# != 1 )); then
 elif [[ -z "${!action_var}" ]]; then
 	echo "$action_var is not defined in config: $config" >&2
 	exit 1
-# check repo environment variables
-elif [[ -z "$RESTIC_REPOSITORY" && -z "$RESTIC_REPOSITORY_FILE" ]]; then
-	echo "Repository not defined" >&2
-	echo "Set RESTIC_REPOSITORY or RESTIC_REPOSITORY_FILE in config: $config" >&2
-	exit 1
-# check passwd environment variables
-elif [[ -z "$RESTIC_PASSWORD_FILE" && -z "$RESTIC_PASSWORD_COMMAND" ]]; then
-	echo "Password not defined" >&2
-	echo "Set RESTIC_PASSWORD_FILE or RESTIC_PASSWORD_COMMAND in config: $config" >&2
-	exit 1
 # make sure another instance of this script isn't running
 elif pids="$(pidof -x "$prog")"; (( $(wc -w <<< "$pids") > 1 )); then
 	echo "One or more other $prog processes are already running: $pids" >&2
@@ -70,16 +60,6 @@ date +"$timefmt$prog: start $action"
 
 # be nice
 command -v renice &>/dev/null && renice 10 -p $$
-
-# create repo if it doesn't exist
-# https://restic.readthedocs.io/en/stable/075_scripting.html
-# if repo already exists, `restic init` errors out without overwriting it
-if ! restic snapshots &>/dev/null && ! restic init; then
-	if ! restic init; then
-		echo  "Failed to initialize repository: $RESTIC_REPOSITORY" >&2
-		exit 1
-	fi
-fi
 
 # run hooks
 r=0

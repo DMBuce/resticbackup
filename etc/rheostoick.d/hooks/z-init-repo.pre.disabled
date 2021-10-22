@@ -1,0 +1,18 @@
+#!/bin/bash
+
+# check repo environment variables
+if [[ -z "$RESTIC_REPOSITORY" && -z "$RESTIC_REPOSITORY_FILE" ]]; then
+	echo "Repository not defined" >&2
+	echo "Set RESTIC_REPOSITORY or RESTIC_REPOSITORY_FILE in config: $config" >&2
+	exit 1
+fi
+
+# create the repo if it doesn't exist
+# https://restic.readthedocs.io/en/stable/075_scripting.html
+# if repo already exists, `restic init` errors out without overwriting it
+if ! restic snapshots &>/dev/null && ! restic init; then
+	if ! restic init; then
+		echo  "Failed to initialize repository: ${RESTIC_REPOSITORY:-$(<"$RESTIC_REPOSITORY_FILE")}" >&2
+		exit 1
+	fi
+fi
