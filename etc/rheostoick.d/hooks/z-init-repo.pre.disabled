@@ -1,10 +1,24 @@
 #!/bin/bash
 
+# parse args
+action="$1"
+retval="$2"
+
+# bail if any previous hooks failed
+if (( retval != 0 )); then
+	exit
+fi
+
 # check repo environment variables
 if [[ -z "$RESTIC_REPOSITORY" && -z "$RESTIC_REPOSITORY_FILE" ]]; then
 	echo "Repository not defined" >&2
 	echo "Set RESTIC_REPOSITORY or RESTIC_REPOSITORY_FILE in config: $config" >&2
 	exit 1
+## check passwd environment variables
+#elif [[ -z "$RESTIC_PASSWORD_FILE" && -z "$RESTIC_PASSWORD_COMMAND" ]]; then
+#	echo "Password not defined" >&2
+#	echo "Set RESTIC_PASSWORD_FILE or RESTIC_PASSWORD_COMMAND in config: $config" >&2
+#	exit 1
 fi
 
 # create the repo if it doesn't exist
@@ -12,7 +26,9 @@ fi
 # if repo already exists, `restic init` errors out without overwriting it
 if ! restic snapshots &>/dev/null && ! restic init; then
 	if ! restic init; then
-		echo  "Failed to initialize repository: ${RESTIC_REPOSITORY:-$(<"$RESTIC_REPOSITORY_FILE")}" >&2
+		repo="${RESTIC_REPOSITORY:-$(<"$RESTIC_REPOSITORY_FILE")}"
+		echo  "Failed to initialize repository: $repo" >&2
 		exit 1
 	fi
 fi
+
