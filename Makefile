@@ -40,6 +40,9 @@ INSTALL         = /usr/bin/install -c
 INSTALL_PROGRAM = ${INSTALL}
 INSTALL_DATA    = ${INSTALL} -m 644
 
+LN_S        = ln -s
+SED_INPLACE = sed -i
+
 PACKAGE   = rheostoick
 PROG      = rheostoick
 #VERSION   = 0.0.0
@@ -58,6 +61,9 @@ all:
 
 .PHONY: install
 install: all installdirs $(INSTALL_FILES)
+	$(SED_INPLACE) 's,/etc,$(sysconfdir),g' $(DESTDIR)$(bindir)/$(PROG)
+	$(SED_INPLACE) 's,/etc,$(sysconfdir),g' $(DESTDIR)$(sysconfdir)/config
+	$(SED_INPLACE) 's,/etc,$(sysconfdir),g' $(DESTDIR)$(sysconfdir)/exclude
 
 .PHONY: installdirs
 installdirs: $(INSTALL_DIRS)
