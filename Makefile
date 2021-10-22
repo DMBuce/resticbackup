@@ -62,8 +62,8 @@ all:
 .PHONY: install
 install: all installdirs $(INSTALL_FILES)
 	$(SED_INPLACE) 's,/etc,$(sysconfdir),g' $(DESTDIR)$(bindir)/$(PROG)
-	$(SED_INPLACE) 's,/etc,$(sysconfdir),g' $(DESTDIR)$(sysconfdir)/config
-	$(SED_INPLACE) 's,/etc,$(sysconfdir),g' $(DESTDIR)$(sysconfdir)/exclude
+	$(SED_INPLACE) 's,/etc,$(sysconfdir),g' $(DESTDIR)$(sysconfdir)/$(PROG).d/config
+	$(SED_INPLACE) 's,/etc,$(sysconfdir),g' $(DESTDIR)$(sysconfdir)/$(PROG).d/exclude
 
 .PHONY: installdirs
 installdirs: $(INSTALL_DIRS)
