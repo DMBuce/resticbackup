@@ -87,6 +87,7 @@ fi
 
 # do the thing
 retval=0
+echo "Running command: restic ${!action_var}" >&2
 restic ${!action_var} || retval=$?
 
 # run hooks
