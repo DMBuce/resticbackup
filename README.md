@@ -3,15 +3,15 @@
 Restic + hooks
 
     R ------> R
-         H -> H
+        H --> H
     E ------> E
-         O -> O
+        O --> O
     S ------> S
     T ------> T
-         O -> O
+        O --> O
     I ------> I
     C ------> C
-         K -> K
+        K --> K
 
 Rheostoick is a bash shell script for [Restic](https://restic.net/).
 It runs hooks before and after whatever restic commands you've configured.
