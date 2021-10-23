@@ -1,7 +1,7 @@
 #!/bin/bash
 
 # source config
-prog=rheostoick
+prog=rhesootick
 config="/etc/$prog.d/config"
 set -a
 . "$config"
@@ -12,7 +12,7 @@ LOG_FILE="${LOG_FILE--}"
 hooks="/etc/$prog.d/hooks"
 usage="Syntax: $prog <action>"
 
-# run as 'rheostoick foo' when called as 'restic_foo' or 'rheostoick_foo'
+# run as 'rhesootick foo' when called as 'restic_foo' or 'rhesootick_foo'
 if [[ $# == 0 && "${0##*/}" == restic_* ]]; then
 	exec "$prog" "${0##*/restic_}"
 elif [[ $# == 0 && "${0##*/}" == ${prog}_* ]]; then
@@ -21,7 +21,7 @@ fi
 
 # parse args
 action="$1"
-action_var="RHEOSTOICK_${action^^}"
+action_var="RHESOOTICK_${action^^}"
 
 # check args
 if (( $# != 1 )); then

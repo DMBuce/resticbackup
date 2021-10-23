@@ -1,5 +1,5 @@
 #!/bin/bash
-# stop `rheostoick backup` from running if the repository isn't mounted
+# stop `rhesootick backup` from running if the repository isn't mounted
 
 # parse args
 action="$1"

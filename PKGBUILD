@@ -1,6 +1,6 @@
 # Maintainer: Buce <dmbuce@gmail.com>
 
-pkgname=rheostoick
+pkgname=rhesootick
 pkgver=0.r24.gf0e44ca
 pkgver() {
   cd "$srcdir/$pkgname"
@@ -11,7 +11,7 @@ pkgver() {
 pkgrel=1
 pkgdesc="Restic with hooks."
 arch=(any)
-url="https://github.com/DMBuce/rheostoick"
+url="https://github.com/DMBuce/rhesootick"
 license=('unknown')
 groups=()
 depends=(
@@ -21,12 +21,12 @@ provides=()
 conflicts=()
 replaces=()
 backup=(
-	etc/rheostoick.d/config
-	etc/rheostoick.d/exclude
-	etc/rheostoick.d/password
-  etc/rheostoick.d/hooks/check-integ.post.disabled
-  etc/rheostoick.d/hooks/check-snaps.post.disabled
-  etc/rheostoick.d/hooks/repo-mounted.pre.disabled
+	etc/rhesootick.d/config
+	etc/rhesootick.d/exclude
+	etc/rhesootick.d/password
+  etc/rhesootick.d/hooks/check-integ.post.disabled
+  etc/rhesootick.d/hooks/check-snaps.post.disabled
+  etc/rhesootick.d/hooks/repo-mounted.pre.disabled
 )
 options=()
 install=

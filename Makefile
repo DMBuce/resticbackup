@@ -43,11 +43,11 @@ INSTALL_DATA    = ${INSTALL} -m 644
 LN_S        = ln -s
 SED_INPLACE = sed -i
 
-PACKAGE   = rheostoick
-PROG      = rheostoick
+PACKAGE   = rhesootick
+PROG      = rhesootick
 #VERSION   = 0.0.0
-BUGREPORT = https://github.com/DMBuce/rheostoick/issues
-URL       = https://github.com/DMBuce/rheostoick
+BUGREPORT = https://github.com/DMBuce/rhesootick/issues
+URL       = https://github.com/DMBuce/rhesootick
 
 BINFILES         = $(wildcard bin/*)
 ETCFILES         = $(shell find etc/ -type f)
@@ -77,10 +77,10 @@ $(DESTDIR)$(bindir)/%: bin/%
 $(DESTDIR)$(sysconfdir)/%: etc/%
 	$(INSTALL_DATA) $< $@
 
-$(DESTDIR)$(sysconfdir)/rheostoick.d/hooks/%: etc/rheostoick.d/hooks/%
+$(DESTDIR)$(sysconfdir)/rhesootick.d/hooks/%: etc/rhesootick.d/hooks/%
 	$(INSTALL_PROGRAM) $< $@
 
-$(DESTDIR)$(sysconfdir)/rheostoick.d/password: etc/rheostoick.d/password
+$(DESTDIR)$(sysconfdir)/rhesootick.d/password: etc/rhesootick.d/password
 	$(INSTALL) -m 600 $< $@
 
 # vim: set ft=make:
