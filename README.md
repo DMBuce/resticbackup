@@ -37,7 +37,7 @@ and `resticbackup prune`, respectively.
     lrwxrwxrwx 1 root root 19 Oct 21 20:43 /etc/cron.daily/restic_backup -> /usr/bin/resticbackup
     lrwxrwxrwx 1 root root 19 Oct 21 20:44 /etc/cron.weekly/resticbackup_prune -> /usr/bin/resticbackup
 
-You can configure rheostoic to log to a file or syslog with the `LOG_FILE` setting.
+You can configure resticbackup to log to a file or syslog with the `LOG_FILE` setting.
 
 In the same folder as the config file, there is a `hooks` directory where you can place executable hooks to run before or after the restic command.
 `resticbackup` will run `*.pre` hooks before the configured restic command,
