@@ -43,11 +43,11 @@ INSTALL_DATA    = ${INSTALL} -m 644
 LN_S        = ln -s
 SED_INPLACE = sed -i
 
-PACKAGE   = rhesootick
-PROG      = rhesootick
+PACKAGE   = resticbackup
+PROG      = resticbackup
 #VERSION   = 0.0.0
-BUGREPORT = https://github.com/DMBuce/rhesootick/issues
-URL       = https://github.com/DMBuce/rhesootick
+BUGREPORT = https://github.com/DMBuce/resticbackup/issues
+URL       = https://github.com/DMBuce/resticbackup
 
 BINFILES         = $(wildcard bin/*)
 ETCFILES         = $(shell find etc/ -type f)
@@ -77,10 +77,10 @@ $(DESTDIR)$(bindir)/%: bin/%
 $(DESTDIR)$(sysconfdir)/%: etc/%
 	$(INSTALL_DATA) $< $@
 
-$(DESTDIR)$(sysconfdir)/rhesootick.d/hooks/%: etc/rhesootick.d/hooks/%
+$(DESTDIR)$(sysconfdir)/resticbackup.d/hooks/%: etc/resticbackup.d/hooks/%
 	$(INSTALL_PROGRAM) $< $@
 
-$(DESTDIR)$(sysconfdir)/rhesootick.d/password: etc/rhesootick.d/password
+$(DESTDIR)$(sysconfdir)/resticbackup.d/password: etc/resticbackup.d/password
 	$(INSTALL) -m 600 $< $@
 
 # vim: set ft=make:

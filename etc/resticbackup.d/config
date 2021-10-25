@@ -3,15 +3,15 @@
 # all variables are exported to the environment,
 # so you can define restic environment variables here
 # https://restic.readthedocs.io/en/latest/040_backup.html#environment-variables
-#RESTIC_PASSWORD_FILE=/etc/rhesootick.d/password
-#RESTIC_PASSWORD_COMMAND="gpg --quiet --decrypt /etc/rhesootick.d/password.gpg" 
+#RESTIC_PASSWORD_FILE=/etc/resticbackup.d/password
+#RESTIC_PASSWORD_COMMAND="gpg --quiet --decrypt /etc/resticbackup.d/password.gpg" 
 #RESTIC_REPOSITORY=/backup/restic
-#RESTIC_REPOSITORY_FILE=/etc/rhesootick.d/repo
+#RESTIC_REPOSITORY_FILE=/etc/resticbackup.d/repo
 
-# if you define a variable like RHESOOTICK_FOO=args,
-# then `rhesootick foo` will run `restic args`
-RHESOOTICK_BACKUP="backup -v --exclude-file=/etc/rhesootick.d/exclude /"
-RHESOOTICK_PRUNE="forget --prune --keep-hourly 12 --keep-daily 7 --keep-weekly 4 --keep-monthly 3"
+# if you define a variable like RESTICBACKUP_FOO=args,
+# then `resticbackup foo` will run `restic args`
+RESTICBACKUP_BACKUP="backup -v --exclude-file=/etc/resticbackup.d/exclude /"
+RESTICBACKUP_PRUNE="forget --prune --keep-hourly 12 --keep-daily 7 --keep-weekly 4 --keep-monthly 3"
 
 # logging: use a path to log to a file, '-' to log to stdout,
 # or 'syslog' to log to syslog (requires logger)
