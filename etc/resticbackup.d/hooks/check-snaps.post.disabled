@@ -7,7 +7,7 @@ retval="$2"
 # settings
 CHECKMK_SNAPSHOTS_SPOOL="${CHECKMK_SNAPSHOTS_SPOOL-/var/lib/check_mk_agent/spool/$((3*24*60*60))_check_restic_snapshots}"
 CHECKMK_SNAPSHOTS_THRESHOLDS="${CHECKMK_SNAPSHOTS_THRESHOLDS-1day:10:6}"
-service=RESTIC_SNAPSHOTS 
+service=RESTIC_SNAPSHOTS
 spool="$CHECKMK_SNAPSHOTS_SPOOL"
 
 # check config

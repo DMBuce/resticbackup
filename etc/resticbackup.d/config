@@ -29,5 +29,5 @@ RESTICBACKUP_PRUNE="forget --prune --keep-hourly 12 --keep-daily 7 --keep-weekly
 #
 # check-snaps: thresholds formatted like period:warn:crit
 #
-#CHECKMK_SNAPSHOTS_THRESHOLDS=1day:10:6
+#CHECKMK_SNAPSHOTS_THRESHOLDS=1day:6:10
 

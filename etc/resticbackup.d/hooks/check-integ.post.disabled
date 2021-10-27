@@ -6,7 +6,7 @@ retval="$2"
 
 # settings
 CHECKMK_INTEGRITY_SPOOL="${CHECKMK_INTEGRITY_SPOOL-/var/lib/check_mk_agent/spool/$((8*24*60*60))_check_restic_integrity}"
-service=RESTIC_INTEGRITY 
+service=RESTIC_INTEGRITY
 spool="$CHECKMK_INTEGRITY_SPOOL"
 
 # send a message to check_mk's spool file
