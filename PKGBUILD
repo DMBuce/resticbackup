@@ -27,6 +27,7 @@ backup=(
   etc/resticbackup.d/hooks/check-integ.post.disabled
   etc/resticbackup.d/hooks/check-snaps.post.disabled
   etc/resticbackup.d/hooks/repo-mounted.pre.disabled
+  etc/profile.d/restic.sh
 )
 options=()
 install=
