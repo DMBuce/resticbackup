@@ -65,10 +65,10 @@ command -v renice &>/dev/null && renice 10 -p $$
 r=0
 retval=0
 failedhooks=()
+set -o pipefail
 for hook in "$hooks"/*.pre; do
 	if [[ -x "$hook" ]]; then
 		echo "Running hook: $hook $action $retval" >&2
-		set -o pipefail
 		"$hook" "$action" "$retval" 2>&1 | sed '1s/^/==> /; 2,$s/^/    /' >&2
 		r=$?
 		if (( r != 0 )); then
@@ -78,9 +78,9 @@ for hook in "$hooks"/*.pre; do
 		else
 			echo " --> Hook exit status: $r (Success)" >&2
 		fi
-		set +o pipefail
 	fi
 done
+set +o pipefail
 
 # bail if a hook failed
 if (( retval != 0 )); then
@@ -94,23 +94,28 @@ echo "Running command: restic ${!action_var}" >&2
 restic ${!action_var} || retval=$?
 echo "Ran command: restic ${!action_var}" >&2
 if (( retval != 0 )); then
-	echo " --> Restic exit status: $r (Failure)" >&2
+	echo " --> Restic exit status: $retval (Failure)" >&2
 else
-	echo " --> Restic exit status: $r (Success)" >&2
+	echo " --> Restic exit status: $retval (Success)" >&2
 fi
 
 # run hooks
+r=0
+set -o pipefail
 for hook in "$hooks"/*.post; do
 	if [[ -x "$hook" ]]; then
 		echo "Running hook: $hook $action $retval" >&2
 		"$hook" "$action" "$retval" 2>&1 | sed '1s/^/==> /; 2,$s/^/    /' >&2
-		if (( $? != 0 )); then
+		r=$?
+		if (( r != 0 )); then
 			echo " --> Hook exit status: $r (Failure)" >&2
+			retval=$r
 		else
 			echo " --> Hook exit status: $r (Success)" >&2
 		fi
 	fi
 done
+set +o pipefail
 
 # print timestamp
 date +"$timefmt$prog: end $action"
