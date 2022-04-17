@@ -134,8 +134,8 @@ EXAMPLES
     You will also need to make sure that any custom actions are configured.
     There are two example actions in the default config:
 
-        RESTICBACKUP_BACKUP="backup -v --exclude-file=/etc/resticbackup.d/exclude /"
-        RESTICBACKUP_PRUNE="forget --prune --keep-hourly 12 --keep-daily 7 --keep-weekly 4 --keep-monthly 3"
+            RESTICBACKUP_BACKUP="backup -v --exclude-file=/etc/resticbackup.d/exclude /"
+            RESTICBACKUP_PRUNE="forget --prune --keep-hourly 12 --keep-daily 7 --keep-weekly 4 --keep-monthly 3"
 
     These settings will run the appropriate restic subcommands when invoking
     "resticbackup backup" and "resticbackup prune".
@@ -144,7 +144,7 @@ EXAMPLES
     E.g. if you were to add the following setting, "resticbackup snap" would
     run "restic snapshots"
 
-        RESTICBACKUP_SNAP=snapshots
+            RESTICBACKUP_SNAP=snapshots
 
     You can use symlinks to run restic commands without passing any
     arguments to resticbackup. For example, to run "resticbackup backup"
