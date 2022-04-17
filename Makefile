@@ -53,11 +53,16 @@ BINFILES         = $(wildcard bin/*)
 ETCFILES         = $(shell find etc/ -type f)
 BINFILES_INSTALL = $(BINFILES:bin/%=$(DESTDIR)$(bindir)/%)
 ETCFILES_INSTALL = $(ETCFILES:etc/%=$(DESTDIR)$(sysconfdir)/%)
+MAN1FILES        = doc/resticbackup.1
+MANFILES         = $(MAN1FILES)
+HTMLFILES        = $(MANFILES:%=%.html)
+TEXTFILES        = $(BINFILES:bin/%=doc/%.1.txt)
+DOCFILES         = $(MANFILES) $(HTMLFILES) $(TEXTFILES)
 INSTALL_FILES    = $(BINFILES_INSTALL) $(ETCFILES_INSTALL)
 INSTALL_DIRS     = $(sort $(dir $(INSTALL_FILES)))
 
 .PHONY: all
-all:
+all: doc
 
 .PHONY: install
 install: all installdirs $(INSTALL_FILES)
@@ -71,6 +76,18 @@ uninstall:
 
 .PHONY: installdirs
 installdirs: $(INSTALL_DIRS)
+
+.PHONY: doc
+doc: $(DOCFILES)
+
+doc/%.1: doc/%.1.pod
+	pod2man $< > $@
+
+doc/%.txt: doc/%.pod
+	pod2text $< > $@
+
+doc/%.html: doc/%.pod
+	pod2html $< > $@
 
 $(INSTALL_DIRS):
 	$(INSTALL) -d $@
@@ -86,5 +103,8 @@ $(DESTDIR)$(sysconfdir)/resticbackup.d/hooks/%: etc/resticbackup.d/hooks/%
 
 $(DESTDIR)$(sysconfdir)/resticbackup.d/password: etc/resticbackup.d/password
 	$(INSTALL) -m 600 $< $@
+
+$(DESTDIR)$(man1dir)/%: doc/%
+	$(INSTALL_DATA) $< $@
 
 # vim: set ft=make:
