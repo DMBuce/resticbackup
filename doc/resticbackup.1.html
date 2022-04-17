@@ -81,7 +81,7 @@ OPTION=&quot;my value&quot;</code></pre>
 
 <p>Each config option that starts with <code>RESTICBACKUP_</code> defines an action that can be invoked from the command line. The action&#39;s name is derived from the option name by removing <code>RESTICBACKUP_</code> and converting to lowercase. When invoking an action, the option&#39;s value is passed as arguments to restic.</p>
 
-<p>For example, <code>RESTICBACKUP_FOO=&quot;snapshots -v&quot;</code> will cause <code>resticbackup foo</code> to run <code>restic snapshots -v</code> .</p>
+<p>For example, RESTICBACKUP_FOO=&quot;snapshots -v&quot; will cause <code>resticbackup foo</code> to run <code>restic snapshots -v</code> .</p>
 
 </ul>
 
@@ -99,7 +99,7 @@ OPTION=&quot;my value&quot;</code></pre>
 
 <ul>
 
-<p>Hooks may have their own custom options. See <a>HOOKS</a> for details.</p>
+<p>Hooks may have their own custom options. See <a>HOOKS</a>, below, for details.</p>
 
 </ul>
 
@@ -209,7 +209,7 @@ ln -s `which resticbackup` /etc/cron.daily/resticbackup_prune</code></pre>
 </li>
 </ul>
 
-<p>Some of these hooks have additional configuration settings in the config file. To use a hook, remove its <code>.disabled</code> extension.</p>
+<p>Some of these hooks have additional configuration settings in the config file. To use a hook, copy it to a new file without the <code>.disabled</code> extension.</p>
 
 <h1 id="AUTHORS">AUTHORS</h1>
 

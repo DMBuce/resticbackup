@@ -208,7 +208,7 @@ The action's name is derived from the option name by removing \f(CW\*(C`RESTICBA
 and converting to lowercase.
 When invoking an action, the option's value is passed as arguments to restic.
 .Sp
-For example, \f(CW\*(C`RESTICBACKUP_FOO="snapshots \-v"\*(C'\fR will cause \f(CW\*(C`resticbackup foo\*(C'\fR
+For example, RESTICBACKUP_FOO=\*(L"snapshots \-v\*(R" will cause \f(CW\*(C`resticbackup foo\*(C'\fR
 to run \f(CW\*(C`restic snapshots \-v\*(C'\fR .
 .RE
 .PP
@@ -227,7 +227,7 @@ Default: \-
 .Sp
 .RS 4
 Hooks may have their own custom options.
-See \s-1HOOKS\s0 for details.
+See \s-1HOOKS\s0, below, for details.
 .RE
 .SH "HOOKS"
 .IX Header "HOOKS"
@@ -353,7 +353,7 @@ Do an integrity check after pruning the repository
 Check that the number of snapshots taken recently is above some threshold
 .PP
 Some of these hooks have additional configuration settings in the config file.
-To use a hook, remove its \f(CW\*(C`.disabled\*(C'\fR extension.
+To use a hook, copy it to a new file without the \f(CW\*(C`.disabled\*(C'\fR extension.
 .SH "AUTHORS"
 .IX Header "AUTHORS"
 resticbackup was written by DMBuce <https://github.com/DMBuce> .

@@ -84,7 +84,7 @@ The action's name is derived from the option name by removing C<RESTICBACKUP_>
 and converting to lowercase.
 When invoking an action, the option's value is passed as arguments to restic.
 
-For example, C<RESTICBACKUP_FOO="snapshots -v"> will cause C<resticbackup foo>
+For example, RESTICBACKUP_FOO="snapshots -v" will cause C<resticbackup foo>
 to run C<restic snapshots -v> .
 
 =back
@@ -107,7 +107,7 @@ B<Other Options>
 =over 4
 
 Hooks may have their own custom options.
-See L<HOOKS> for details.
+See L<HOOKS>, below, for details.
 
 =back
 
@@ -258,7 +258,7 @@ Check that the number of snapshots taken recently is above some threshold
 =back
 
 Some of these hooks have additional configuration settings in the config file.
-To use a hook, remove its C<.disabled> extension.
+To use a hook, copy it to a new file without the C<.disabled> extension.
 
 =head1 AUTHORS
 

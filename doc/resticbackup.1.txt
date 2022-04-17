@@ -56,7 +56,7 @@ CONFIGURATION
         converting to lowercase. When invoking an action, the option's value
         is passed as arguments to restic.
 
-        For example, "RESTICBACKUP_FOO="snapshots -v"" will cause
+        For example, RESTICBACKUP_FOO="snapshots -v" will cause
         "resticbackup foo" to run "restic snapshots -v" .
 
     LOG_FILE
@@ -68,7 +68,8 @@ CONFIGURATION
 
     Other Options
 
-        Hooks may have their own custom options. See HOOKS for details.
+        Hooks may have their own custom options. See HOOKS, below, for
+        details.
 
 HOOKS
     In the same folder as the config file, there is a "hooks" directory
@@ -171,7 +172,8 @@ EXAMPLES
         threshold
 
     Some of these hooks have additional configuration settings in the config
-    file. To use a hook, remove its ".disabled" extension.
+    file. To use a hook, copy it to a new file without the ".disabled"
+    extension.
 
 AUTHORS
     resticbackup was written by DMBuce <https://github.com/DMBuce> .
