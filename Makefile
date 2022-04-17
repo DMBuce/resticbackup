@@ -49,17 +49,19 @@ PROG      = resticbackup
 BUGREPORT = https://github.com/DMBuce/resticbackup/issues
 URL       = https://github.com/DMBuce/resticbackup
 
-BINFILES         = $(wildcard bin/*)
-ETCFILES         = $(shell find etc/ -type f)
-BINFILES_INSTALL = $(BINFILES:bin/%=$(DESTDIR)$(bindir)/%)
-ETCFILES_INSTALL = $(ETCFILES:etc/%=$(DESTDIR)$(sysconfdir)/%)
-MAN1FILES        = doc/resticbackup.1
-MANFILES         = $(MAN1FILES)
-HTMLFILES        = $(MANFILES:%=%.html)
-TEXTFILES        = $(BINFILES:bin/%=doc/%.1.txt)
-DOCFILES         = $(MANFILES) $(HTMLFILES) $(TEXTFILES)
-INSTALL_FILES    = $(BINFILES_INSTALL) $(ETCFILES_INSTALL) $(MANFILES_INSTALL)
-INSTALL_DIRS     = $(sort $(dir $(INSTALL_FILES)))
+BINFILES          = $(wildcard bin/*)
+ETCFILES          = $(shell find etc/ -type f)
+MAN1FILES         = doc/resticbackup.1
+MANFILES          = $(MAN1FILES)
+HTMLFILES         = $(MANFILES:%=%.html)
+TEXTFILES         = $(BINFILES:bin/%=doc/%.1.txt)
+DOCFILES          = $(MANFILES) $(HTMLFILES) $(TEXTFILES)
+BINFILES_INSTALL  = $(BINFILES:bin/%=$(DESTDIR)$(bindir)/%)
+ETCFILES_INSTALL  = $(ETCFILES:etc/%=$(DESTDIR)$(sysconfdir)/%)
+MAN1FILES_INSTALL = $(MAN1FILES:doc/%=$(DESTDIR)$(man1dir)/%)
+MANFILES_INSTALL  = $(MAN1FILES_INSTALL)
+INSTALL_FILES     = $(BINFILES_INSTALL) $(ETCFILES_INSTALL) $(MANFILES_INSTALL)
+INSTALL_DIRS      = $(sort $(dir $(INSTALL_FILES)))
 
 .PHONY: all
 all: doc
