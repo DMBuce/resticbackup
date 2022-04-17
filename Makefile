@@ -63,7 +63,11 @@ all:
 install: all installdirs $(INSTALL_FILES)
 	$(SED_INPLACE) 's,/etc,$(sysconfdir),g' $(DESTDIR)$(bindir)/$(PROG)
 	$(SED_INPLACE) 's,/etc,$(sysconfdir),g' $(DESTDIR)$(sysconfdir)/$(PROG).d/config
-	$(SED_INPLACE) 's,/etc,$(sysconfdir),g' $(DESTDIR)$(sysconfdir)/$(PROG).d/exclude
+	$(SED_INPLACE) 's,/etc,$(sysconfdir),g' $(DESTDIR)$(sysconfdir)/profile.d/restic.sh
+
+.PHONY: uninstall
+uninstall:
+	rm -f $(INSTALL_FILES)
 
 .PHONY: installdirs
 installdirs: $(INSTALL_DIRS)
