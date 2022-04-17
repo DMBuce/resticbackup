@@ -49,10 +49,10 @@ Config options are set as shell variables, for example:
 
 Options that are not use the environment variable of the same name,
 or a default if no such environment variable is defined.
-Values that contain whitespace must be quoted, for exxample:
+Values that contain whitespace must be quoted, for example:
 
-OPTION='my value'
-OPTION="my value"
+	OPTION='my value'
+	OPTION="my value"
 
 Other shell expansion rules apply.
 See L<C<man bash>/Parameters> for details.
@@ -70,21 +70,8 @@ etc.
 Config options are exported to restic's environment,
 so all of restic's environment variables are valid config options.
 See
-L<https://restic.readthedocs.io/en/latest/040_backup.html#environment-variables>
+L<restic documentation|https://restic.readthedocs.io/en/latest/040_backup.html#environment-variables>
 for details.
-
-=back
-
-B<LOG_FILE>
-
-=over 4
-
-Controls logging behavior.
-Use '-' to log to stdout,
-'syslog' to log to syslog (requires logger),
-or a filename to log to a file.
-
-Default: -
 
 =back
 
@@ -103,10 +90,27 @@ to run C<restic snapshots -v> .
 
 =back
 
-B<Hook Options>
+B<LOG_FILE>
+
+=over 4
+
+Controls logging behavior.
+Use '-' to log to stdout,
+'syslog' to log to syslog (requires logger),
+or a filename to log to a file.
+
+Default: -
+
+=back
+
+B<Other Options>
+
+=over 4
 
 Hooks may have their own custom options.
 See L<HOOKS> for details.
+
+=back
 
 =head1 HOOKS
 
@@ -114,11 +118,11 @@ In the same folder as the config file,
 there is a C<hooks> directory
 where you can place hooks to run before or after the restic command.
 A hook is any executable that ends in C<.pre> or C<.post> .
-C<resticbackup> will run C<*.pre> hooks before running restic,
-and C<*.post> hooks afterward.
+C<resticbackup> will run *.pre hooks before running restic,
+and *.post hooks afterward.
 
 Pre hooks are passed two arguments:
-the status code of the last pre hook that failed
+the exit code of the last pre hook that failed
 (or C<0> if no hooks failed),
 and the action about to be performed
 (e.g. for C<resticbackup backup>, the action is C<backup>).
@@ -126,7 +130,7 @@ If any pre hook fails,
 resticbackup will exit without running the restic command.
 
 Post hooks are also passed two arguments:
-the status code of the restic command that was run,
+the exit code of the restic command that was run,
 and the action that was performed.
 
 Each hook runs in a modified environment
@@ -152,7 +156,7 @@ Options:
 
 =item *
 
-C<CHECKMK_INTEGRITY_SPOOL=/path>: The path to the spool file
+B<CHECKMK_INTEGRITY_SPOOL>=/path - The path to the spool file
 
 =back
 
@@ -172,11 +176,11 @@ Options:
 
 =item *
 
-C<CHECKMK_SNAPSHOTS_SPOOL=/path>: The path to the spool file
+B<CHECKMK_SNAPSHOTS_SPOOL>=/path - The path to the spool file
 
 =item *
 
-C<CHECKMK_SNAPSHOTS_THRESHOLDS=period:num_crit:num_warn>: The period of time to check, the warning threshold, and te critical threshold (e.g. C<1day:6:10>)
+B<CHECKMK_SNAPSHOTS_THRESHOLDS>=period:num_crit:num_warn - The period of time to check, the warning threshold, and the critical threshold (e.g. C<1day:6:10>)
 
 =back
 
@@ -202,7 +206,8 @@ Initializes the repo if it hasn't yet been initialized.
 
 In order to use resticbackup,
 you will likely need to define a password and repository in the config file
-(usually located at /etc/resticbackup.d or /usr/local/etc/resticbackup.d).
+(usually located at /etc/resticbackup.d/config
+or /usr/local/etc/resticbackup.d/config).
 
 	RESTIC_PASSWORD_FILE=/etc/resticbackup.d/password
 	RESTIC_REPOSITORY=/backup/restic
@@ -224,8 +229,9 @@ C<resticbackup snap> would run C<restic snapshots>
 
 You can use symlinks to run restic commands
 without passing any arguments to resticbackup.
-For example, to run C<resticbackup backup> daily and C<resticbackup prune> weekly
-(assumes that cron is correctly configured)
+For example,
+under many cron setups you can
+run C<resticbackup backup> daily and C<resticbackup prune> weekly with
 
 	ln -s `which resticbackup` /etc/cron.daily/restic_backup
 	ln -s `which resticbackup` /etc/cron.daily/resticbackup_prune
