@@ -15,11 +15,11 @@ When invoked as C<resticbackup foo>, resticbackup will
 
 =item *
 
-Run each C<*.pre> hook. See L</HOOKS> for details.
+Run each *.pre hook. See L</HOOKS> for details.
 
 =item *
 
-Look up C<$RESTICBACKUP_FOO> in the config. See L</CONFIGURATION> for details.
+Look up $RESTICBACKUP_FOO in the config. See L</CONFIGURATION> for details.
 
 =item *
 
@@ -27,7 +27,7 @@ Run C<restic $RESTICBACKUP_FOO>.
 
 =item *
 
-Run each C<*.post> hook. See L</HOOKS> for details.
+Run each *.post hook. See L</HOOKS> for details.
 
 =back
 
@@ -39,18 +39,23 @@ is equivalent to invoking it as C<resticbackup foo>.
 
 The location of the configuration directory
 varies depending on how resticbackup was installed.
-Usually it is found at C</etc/resticbackup.d> or C</usr/local/etc/resticbackup.d> .
+Usually it is found at /etc/resticbackup.d or /usr/local/etc/resticbackup.d .
 
 The file named C<config> within this directory is the config file.
 The format of this file is bash shell.
-Config options are set as shell variables,
-e.g. C<OPTION=value>.
+Config options are set as shell variables, for example:
+
+	OPTION=value
+
 Options that are not use the environment variable of the same name,
 or a default if no such environment variable is defined.
-Values that contain whitespace must be quoted,
-e.g. C<OPTION="my value"> or C<OPTION='my value'>.
+Values that contain whitespace must be quoted, for exxample:
+
+OPTION='my value'
+OPTION="my value"
+
 Other shell expansion rules apply.
-See L<bash/Parameters> for details.
+See L<C<man bash>/Parameters> for details.
 
 Each config option is described below.
 
@@ -197,7 +202,7 @@ Initializes the repo if it hasn't yet been initialized.
 
 In order to use resticbackup,
 you will likely need to define a password and repository in the config file
-(usually located at C</etc/resticbackup.d> or C</usr/local/etc/resticbackup.d>).
+(usually located at /etc/resticbackup.d or /usr/local/etc/resticbackup.d).
 
 	RESTIC_PASSWORD_FILE=/etc/resticbackup.d/password
 	RESTIC_REPOSITORY=/backup/restic

@@ -36,16 +36,16 @@
 
 <ul>
 
-<li><p>Run each <code>*.pre</code> hook. See <a href="#HOOKS">&quot;HOOKS&quot;</a> for details.</p>
+<li><p>Run each *.pre hook. See <a href="#HOOKS">&quot;HOOKS&quot;</a> for details.</p>
 
 </li>
-<li><p>Look up <code>$RESTICBACKUP_FOO</code> in the config. See <a href="#CONFIGURATION">&quot;CONFIGURATION&quot;</a> for details.</p>
+<li><p>Look up $RESTICBACKUP_FOO in the config. See <a href="#CONFIGURATION">&quot;CONFIGURATION&quot;</a> for details.</p>
 
 </li>
 <li><p>Run <code>restic $RESTICBACKUP_FOO</code>.</p>
 
 </li>
-<li><p>Run each <code>*.post</code> hook. See <a href="#HOOKS">&quot;HOOKS&quot;</a> for details.</p>
+<li><p>Run each *.post hook. See <a href="#HOOKS">&quot;HOOKS&quot;</a> for details.</p>
 
 </li>
 </ul>
@@ -54,9 +54,17 @@
 
 <h1 id="CONFIGURATION">CONFIGURATION</h1>
 
-<p>The location of the configuration directory varies depending on how resticbackup was installed. Usually it is found at <code>/etc/resticbackup.d</code> or <code>/usr/local/etc/resticbackup.d</code> .</p>
+<p>The location of the configuration directory varies depending on how resticbackup was installed. Usually it is found at /etc/resticbackup.d or /usr/local/etc/resticbackup.d .</p>
 
-<p>The file named <code>config</code> within this directory is the config file. The format of this file is bash shell. Config options are set as shell variables, e.g. <code>OPTION=value</code>. Options that are not use the environment variable of the same name, or a default if no such environment variable is defined. Values that contain whitespace must be quoted, e.g. <code>OPTION=&quot;my value&quot;</code> or <code>OPTION=&#39;my value&#39;</code>. Other shell expansion rules apply. See <a>&quot;Parameters&quot; in bash</a> for details.</p>
+<p>The file named <code>config</code> within this directory is the config file. The format of this file is bash shell. Config options are set as shell variables, for example:</p>
+
+<pre><code>OPTION=value</code></pre>
+
+<p>Options that are not use the environment variable of the same name, or a default if no such environment variable is defined. Values that contain whitespace must be quoted, for exxample:</p>
+
+<p>OPTION=&#39;my value&#39; OPTION=&quot;my value&quot;</p>
+
+<p>Other shell expansion rules apply. See <a>&quot;Parameters&quot; in <code>man bash</code></a> for details.</p>
 
 <p>Each config option is described below.</p>
 
@@ -161,7 +169,7 @@
 
 <h1 id="EXAMPLES">EXAMPLES</h1>
 
-<p>In order to use resticbackup, you will likely need to define a password and repository in the config file (usually located at <code>/etc/resticbackup.d</code> or <code>/usr/local/etc/resticbackup.d</code>).</p>
+<p>In order to use resticbackup, you will likely need to define a password and repository in the config file (usually located at /etc/resticbackup.d or /usr/local/etc/resticbackup.d).</p>
 
 <pre><code>RESTIC_PASSWORD_FILE=/etc/resticbackup.d/password
 RESTIC_REPOSITORY=/backup/restic</code></pre>

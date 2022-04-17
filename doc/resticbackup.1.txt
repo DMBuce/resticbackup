@@ -7,30 +7,37 @@ USAGE
 DESCRIPTION
     When invoked as "resticbackup foo", resticbackup will
 
-    *   Run each "*.pre" hook. See "HOOKS" for details.
+    *   Run each *.pre hook. See "HOOKS" for details.
 
     *   Look up $RESTICBACKUP_FOO in the config. See "CONFIGURATION" for
         details.
 
     *   Run "restic $RESTICBACKUP_FOO".
 
-    *   Run each "*.post" hook. See "HOOKS" for details.
+    *   Run each *.post hook. See "HOOKS" for details.
 
     Invoking resticbackup as "resticbackup_foo" or "restic_foo" with no
     other arguments is equivalent to invoking it as "resticbackup foo".
 
 CONFIGURATION
     The location of the configuration directory varies depending on how
-    resticbackup was installed. Usually it is found at "/etc/resticbackup.d"
-    or "/usr/local/etc/resticbackup.d" .
+    resticbackup was installed. Usually it is found at /etc/resticbackup.d
+    or /usr/local/etc/resticbackup.d .
 
     The file named "config" within this directory is the config file. The
     format of this file is bash shell. Config options are set as shell
-    variables, e.g. "OPTION=value". Options that are not use the environment
-    variable of the same name, or a default if no such environment variable
-    is defined. Values that contain whitespace must be quoted, e.g.
-    "OPTION="my value"" or "OPTION='my value'". Other shell expansion rules
-    apply. See "Parameters" in bash for details.
+    variables, for example:
+
+            OPTION=value
+
+    Options that are not use the environment variable of the same name, or a
+    default if no such environment variable is defined. Values that contain
+    whitespace must be quoted, for exxample:
+
+    OPTION='my value' OPTION="my value"
+
+    Other shell expansion rules apply. See "Parameters" in "man bash" for
+    details.
 
     Each config option is described below.
 
@@ -126,7 +133,7 @@ HOOKS
 EXAMPLES
     In order to use resticbackup, you will likely need to define a password
     and repository in the config file (usually located at
-    "/etc/resticbackup.d" or "/usr/local/etc/resticbackup.d").
+    /etc/resticbackup.d or /usr/local/etc/resticbackup.d).
 
             RESTIC_PASSWORD_FILE=/etc/resticbackup.d/password
             RESTIC_REPOSITORY=/backup/restic

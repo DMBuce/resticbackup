@@ -147,13 +147,13 @@ resticbackup \s-1ACTION\s0
 .IX Header "DESCRIPTION"
 When invoked as \f(CW\*(C`resticbackup foo\*(C'\fR, resticbackup will
 .IP "\(bu" 4
-Run each \f(CW\*(C`*.pre\*(C'\fR hook. See \*(L"\s-1HOOKS\*(R"\s0 for details.
+Run each *.pre hook. See \*(L"\s-1HOOKS\*(R"\s0 for details.
 .IP "\(bu" 4
 Look up \f(CW$RESTICBACKUP_FOO\fR in the config. See \*(L"\s-1CONFIGURATION\*(R"\s0 for details.
 .IP "\(bu" 4
 Run \f(CW\*(C`restic $RESTICBACKUP_FOO\*(C'\fR.
 .IP "\(bu" 4
-Run each \f(CW\*(C`*.post\*(C'\fR hook. See \*(L"\s-1HOOKS\*(R"\s0 for details.
+Run each *.post hook. See \*(L"\s-1HOOKS\*(R"\s0 for details.
 .PP
 Invoking resticbackup as \f(CW\*(C`resticbackup_foo\*(C'\fR or \f(CW\*(C`restic_foo\*(C'\fR
 with no other arguments
@@ -162,18 +162,25 @@ is equivalent to invoking it as \f(CW\*(C`resticbackup foo\*(C'\fR.
 .IX Header "CONFIGURATION"
 The location of the configuration directory
 varies depending on how resticbackup was installed.
-Usually it is found at \f(CW\*(C`/etc/resticbackup.d\*(C'\fR or \f(CW\*(C`/usr/local/etc/resticbackup.d\*(C'\fR .
+Usually it is found at /etc/resticbackup.d or /usr/local/etc/resticbackup.d .
 .PP
 The file named \f(CW\*(C`config\*(C'\fR within this directory is the config file.
 The format of this file is bash shell.
-Config options are set as shell variables,
-e.g. \f(CW\*(C`OPTION=value\*(C'\fR.
+Config options are set as shell variables, for example:
+.PP
+.Vb 1
+\&        OPTION=value
+.Ve
+.PP
 Options that are not use the environment variable of the same name,
 or a default if no such environment variable is defined.
-Values that contain whitespace must be quoted,
-e.g. \f(CW\*(C`OPTION="my value"\*(C'\fR or \f(CW\*(C`OPTION=\*(Aqmy value\*(Aq\*(C'\fR.
+Values that contain whitespace must be quoted, for exxample:
+.PP
+OPTION='my value'
+OPTION=\*(L"my value\*(R"
+.PP
 Other shell expansion rules apply.
-See \*(L"Parameters\*(R" in bash for details.
+See \*(L"Parameters\*(R" in \f(CW\*(C`man bash\*(C'\fR for details.
 .PP
 Each config option is described below.
 .PP
@@ -294,7 +301,7 @@ Initializes the repo if it hasn't yet been initialized.
 .IX Header "EXAMPLES"
 In order to use resticbackup,
 you will likely need to define a password and repository in the config file
-(usually located at \f(CW\*(C`/etc/resticbackup.d\*(C'\fR or \f(CW\*(C`/usr/local/etc/resticbackup.d\*(C'\fR).
+(usually located at /etc/resticbackup.d or /usr/local/etc/resticbackup.d).
 .PP
 .Vb 2
 \&        RESTIC_PASSWORD_FILE=/etc/resticbackup.d/password

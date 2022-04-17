@@ -1,7 +1,7 @@
 # Maintainer: Buce <dmbuce@gmail.com>
 
 pkgname=resticbackup
-pkgver=0.r41.gdaf23d7
+pkgver=0.r42.gcdd683e
 pkgver() {
   cd "$srcdir/$pkgname"
   if ! git describe --tags 2>/dev/null; then
