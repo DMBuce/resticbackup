@@ -278,12 +278,17 @@ The result of the check is written to a spool file in the same format as
 Check \s-1MK\s0 local checks <https://docs.checkmk.com/latest/en/localchecks.html>.
 .Sp
 Options:
-.ie n .IP """CHECKMK_SNAPSHOTS_SPOOL=/path"": The path to the spool file =item ""CHECKMK_SNAPSHOTS_THRESHOLDS=period:num_crit:num_warn"": The period of time to check, the warning threshold, and te critical threshold (e.g. ""1day:6:10"")" 4
-.el .IP "\f(CWCHECKMK_SNAPSHOTS_SPOOL=/path\fR: The path to the spool file =item \f(CWCHECKMK_SNAPSHOTS_THRESHOLDS=period:num_crit:num_warn\fR: The period of time to check, the warning threshold, and te critical threshold (e.g. \f(CW1day:6:10\fR)" 4
-.IX Item "CHECKMK_SNAPSHOTS_SPOOL=/path: The path to the spool file =item CHECKMK_SNAPSHOTS_THRESHOLDS=period:num_crit:num_warn: The period of time to check, the warning threshold, and te critical threshold (e.g. 1day:6:10)"
+.ie n .IP """CHECKMK_SNAPSHOTS_SPOOL=/path"": The path to the spool file" 4
+.el .IP "\f(CWCHECKMK_SNAPSHOTS_SPOOL=/path\fR: The path to the spool file" 4
+.IX Item "CHECKMK_SNAPSHOTS_SPOOL=/path: The path to the spool file"
+.PD 0
+.ie n .IP """CHECKMK_SNAPSHOTS_THRESHOLDS=period:num_crit:num_warn"": The period of time to check, the warning threshold, and te critical threshold (e.g. ""1day:6:10"")" 4
+.el .IP "\f(CWCHECKMK_SNAPSHOTS_THRESHOLDS=period:num_crit:num_warn\fR: The period of time to check, the warning threshold, and te critical threshold (e.g. \f(CW1day:6:10\fR)" 4
+.IX Item "CHECKMK_SNAPSHOTS_THRESHOLDS=period:num_crit:num_warn: The period of time to check, the warning threshold, and te critical threshold (e.g. 1day:6:10)"
 .RE
 .RS 4
 .RE
+.PD
 .PP
 \&\f(CW\*(C`repo\-mounted.pre\*(C'\fR
 .Sp

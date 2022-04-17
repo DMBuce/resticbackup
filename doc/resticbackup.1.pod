@@ -156,6 +156,7 @@ Options:
 =over 4
 
 =item C<CHECKMK_SNAPSHOTS_SPOOL=/path>: The path to the spool file
+
 =item C<CHECKMK_SNAPSHOTS_THRESHOLDS=period:num_crit:num_warn>: The period of time to check, the warning threshold, and te critical threshold (e.g. C<1day:6:10>)
 
 =back

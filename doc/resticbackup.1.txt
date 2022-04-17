@@ -105,7 +105,7 @@ HOOKS
 
         Options:
 
-        "CHECKMK_SNAPSHOTS_SPOOL=/path": The path to the spool file =item
+        "CHECKMK_SNAPSHOTS_SPOOL=/path": The path to the spool file
         "CHECKMK_SNAPSHOTS_THRESHOLDS=period:num_crit:num_warn": The period
         of time to check, the warning threshold, and te critical threshold
         (e.g. "1day:6:10")
