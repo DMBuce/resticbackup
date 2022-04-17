@@ -83,7 +83,7 @@ installdirs: $(INSTALL_DIRS)
 doc: $(DOCFILES)
 
 doc/%.1: doc/%.1.pod
-	pod2man -c $(PACKAGE) -n $(call uc,$*) $< > $@
+	pod2man -c $(PACKAGE) -n `echo $* | tr a-z A-Z` $< > $@
 
 doc/%.txt: doc/%.pod
 	pod2text $< > $@
