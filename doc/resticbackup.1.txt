@@ -7,11 +7,14 @@ USAGE
 DESCRIPTION
     When invoked as "resticbackup foo", resticbackup will
 
-    Run each "*.pre" hook. See "HOOKS" for details.
-    Look up $RESTICBACKUP_FOO in the config. See "CONFIGURATION" for
-    details.
-    Run "restic $RESTICBACKUP_FOO".
-    Run each "*.post" hook. See "HOOKS" for details.
+    *   Run each "*.pre" hook. See "HOOKS" for details.
+
+    *   Look up $RESTICBACKUP_FOO in the config. See "CONFIGURATION" for
+        details.
+
+    *   Run "restic $RESTICBACKUP_FOO".
+
+    *   Run each "*.post" hook. See "HOOKS" for details.
 
     Invoking resticbackup as "resticbackup_foo" or "restic_foo" with no
     other arguments is equivalent to invoking it as "resticbackup foo".
@@ -94,7 +97,7 @@ HOOKS
 
         Options:
 
-        "CHECKMK_INTEGRITY_SPOOL=/path": The path to the spool file
+        *   "CHECKMK_INTEGRITY_SPOOL=/path": The path to the spool file
 
     check-snaps.post
 
@@ -105,10 +108,11 @@ HOOKS
 
         Options:
 
-        "CHECKMK_SNAPSHOTS_SPOOL=/path": The path to the spool file
-        "CHECKMK_SNAPSHOTS_THRESHOLDS=period:num_crit:num_warn": The period
-        of time to check, the warning threshold, and te critical threshold
-        (e.g. "1day:6:10")
+        *   "CHECKMK_SNAPSHOTS_SPOOL=/path": The path to the spool file
+
+        *   "CHECKMK_SNAPSHOTS_THRESHOLDS=period:num_crit:num_warn": The
+            period of time to check, the warning threshold, and te critical
+            threshold (e.g. "1day:6:10")
 
     "repo-mounted.pre"
 
@@ -155,11 +159,14 @@ EXAMPLES
     command. Several example hooks are provided that implement the following
     features:
 
-    Check to make sure a repository is mounted before taking a backup
-    Initialize the repo if it hasn't yet been initialized
-    Do an integrity check after pruning the repository
-    Check that the number of snapshots taken recently is above some
-    threshold
+    *   Check to make sure a repository is mounted before taking a backup
+
+    *   Initialize the repo if it hasn't yet been initialized
+
+    *   Do an integrity check after pruning the repository
+
+    *   Check that the number of snapshots taken recently is above some
+        threshold
 
     Some of these hooks have additional configuration settings in the config
     file. To use a hook, remove its ".disabled" extension.

@@ -34,25 +34,21 @@
 
 <p>When invoked as <code>resticbackup foo</code>, resticbackup will</p>
 
-<dl>
+<ul>
 
-<dt id="Run-each-.pre-hook.-See-HOOKS-for-details">Run each <code>*.pre</code> hook. See <a href="#HOOKS">&quot;HOOKS&quot;</a> for details.</dt>
-<dd>
+<li><p>Run each <code>*.pre</code> hook. See <a href="#HOOKS">&quot;HOOKS&quot;</a> for details.</p>
 
-</dd>
-<dt id="Look-up-RESTICBACKUP_FOO-in-the-config.-See-CONFIGURATION-for-details">Look up <code>$RESTICBACKUP_FOO</code> in the config. See <a href="#CONFIGURATION">&quot;CONFIGURATION&quot;</a> for details.</dt>
-<dd>
+</li>
+<li><p>Look up <code>$RESTICBACKUP_FOO</code> in the config. See <a href="#CONFIGURATION">&quot;CONFIGURATION&quot;</a> for details.</p>
 
-</dd>
-<dt id="Run-restic-RESTICBACKUP_FOO">Run <code>restic $RESTICBACKUP_FOO</code>.</dt>
-<dd>
+</li>
+<li><p>Run <code>restic $RESTICBACKUP_FOO</code>.</p>
 
-</dd>
-<dt id="Run-each-.post-hook.-See-HOOKS-for-details">Run each <code>*.post</code> hook. See <a href="#HOOKS">&quot;HOOKS&quot;</a> for details.</dt>
-<dd>
+</li>
+<li><p>Run each <code>*.post</code> hook. See <a href="#HOOKS">&quot;HOOKS&quot;</a> for details.</p>
 
-</dd>
-</dl>
+</li>
+</ul>
 
 <p>Invoking resticbackup as <code>resticbackup_foo</code> or <code>restic_foo</code> with no other arguments is equivalent to invoking it as <code>resticbackup foo</code>.</p>
 
@@ -118,13 +114,12 @@
 
 <p>Options:</p>
 
-<dl>
+<ul>
 
-<dt id="CHECKMK_INTEGRITY_SPOOL-path:-The-path-to-the-spool-file"><code>CHECKMK_INTEGRITY_SPOOL=/path</code>: The path to the spool file</dt>
-<dd>
+<li><p><code>CHECKMK_INTEGRITY_SPOOL=/path</code>: The path to the spool file</p>
 
-</dd>
-</dl>
+</li>
+</ul>
 
 </ul>
 
@@ -136,17 +131,15 @@
 
 <p>Options:</p>
 
-<dl>
+<ul>
 
-<dt id="CHECKMK_SNAPSHOTS_SPOOL-path:-The-path-to-the-spool-file"><code>CHECKMK_SNAPSHOTS_SPOOL=/path</code>: The path to the spool file</dt>
-<dd>
+<li><p><code>CHECKMK_SNAPSHOTS_SPOOL=/path</code>: The path to the spool file</p>
 
-</dd>
-<dt id="CHECKMK_SNAPSHOTS_THRESHOLDS-period:num_crit:num_warn:-The-period-of-time-to-check-the-warning-threshold-and-te-critical-threshold-e.g.-1day:6:10"><code>CHECKMK_SNAPSHOTS_THRESHOLDS=period:num_crit:num_warn</code>: The period of time to check, the warning threshold, and te critical threshold (e.g. <code>1day:6:10</code>)</dt>
-<dd>
+</li>
+<li><p><code>CHECKMK_SNAPSHOTS_THRESHOLDS=period:num_crit:num_warn</code>: The period of time to check, the warning threshold, and te critical threshold (e.g. <code>1day:6:10</code>)</p>
 
-</dd>
-</dl>
+</li>
+</ul>
 
 </ul>
 
@@ -191,25 +184,21 @@ ln -s `which resticbackup` /etc/cron.daily/resticbackup_prune</code></pre>
 
 <p>In the same folder as the config file, there is a <code>hooks</code> directory where you can place executable hooks to run before or after the restic command. Several example hooks are provided that implement the following features:</p>
 
-<dl>
+<ul>
 
-<dt id="Check-to-make-sure-a-repository-is-mounted-before-taking-a-backup">Check to make sure a repository is mounted before taking a backup</dt>
-<dd>
+<li><p>Check to make sure a repository is mounted before taking a backup</p>
 
-</dd>
-<dt id="Initialize-the-repo-if-it-hasnt-yet-been-initialized">Initialize the repo if it hasn&#39;t yet been initialized</dt>
-<dd>
+</li>
+<li><p>Initialize the repo if it hasn&#39;t yet been initialized</p>
 
-</dd>
-<dt id="Do-an-integrity-check-after-pruning-the-repository">Do an integrity check after pruning the repository</dt>
-<dd>
+</li>
+<li><p>Do an integrity check after pruning the repository</p>
 
-</dd>
-<dt id="Check-that-the-number-of-snapshots-taken-recently-is-above-some-threshold">Check that the number of snapshots taken recently is above some threshold</dt>
-<dd>
+</li>
+<li><p>Check that the number of snapshots taken recently is above some threshold</p>
 
-</dd>
-</dl>
+</li>
+</ul>
 
 <p>Some of these hooks have additional configuration settings in the config file. To use a hook, remove its <code>.disabled</code> extension.</p>
 

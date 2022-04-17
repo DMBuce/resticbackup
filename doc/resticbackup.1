@@ -146,20 +146,14 @@ resticbackup \s-1ACTION\s0
 .SH "DESCRIPTION"
 .IX Header "DESCRIPTION"
 When invoked as \f(CW\*(C`resticbackup foo\*(C'\fR, resticbackup will
-.ie n .IP "Run each ""*.pre"" hook. See ""\s-1HOOKS""\s0 for details." 4
-.el .IP "Run each \f(CW*.pre\fR hook. See ``\s-1HOOKS''\s0 for details." 4
-.IX Item "Run each *.pre hook. See HOOKS for details."
-.PD 0
-.ie n .IP "Look up $RESTICBACKUP_FOO in the config. See ""\s-1CONFIGURATION""\s0 for details." 4
-.el .IP "Look up \f(CW$RESTICBACKUP_FOO\fR in the config. See ``\s-1CONFIGURATION''\s0 for details." 4
-.IX Item "Look up $RESTICBACKUP_FOO in the config. See CONFIGURATION for details."
-.ie n .IP "Run ""restic $RESTICBACKUP_FOO""." 4
-.el .IP "Run \f(CWrestic $RESTICBACKUP_FOO\fR." 4
-.IX Item "Run restic $RESTICBACKUP_FOO."
-.ie n .IP "Run each ""*.post"" hook. See ""\s-1HOOKS""\s0 for details." 4
-.el .IP "Run each \f(CW*.post\fR hook. See ``\s-1HOOKS''\s0 for details." 4
-.IX Item "Run each *.post hook. See HOOKS for details."
-.PD
+.IP "\(bu" 4
+Run each \f(CW\*(C`*.pre\*(C'\fR hook. See \*(L"\s-1HOOKS\*(R"\s0 for details.
+.IP "\(bu" 4
+Look up \f(CW$RESTICBACKUP_FOO\fR in the config. See \*(L"\s-1CONFIGURATION\*(R"\s0 for details.
+.IP "\(bu" 4
+Run \f(CW\*(C`restic $RESTICBACKUP_FOO\*(C'\fR.
+.IP "\(bu" 4
+Run each \f(CW\*(C`*.post\*(C'\fR hook. See \*(L"\s-1HOOKS\*(R"\s0 for details.
 .PP
 Invoking resticbackup as \f(CW\*(C`resticbackup_foo\*(C'\fR or \f(CW\*(C`restic_foo\*(C'\fR
 with no other arguments
@@ -263,9 +257,8 @@ The config option
 controls the path to the spool file.
 .Sp
 Options:
-.ie n .IP """CHECKMK_INTEGRITY_SPOOL=/path"": The path to the spool file" 4
-.el .IP "\f(CWCHECKMK_INTEGRITY_SPOOL=/path\fR: The path to the spool file" 4
-.IX Item "CHECKMK_INTEGRITY_SPOOL=/path: The path to the spool file"
+.IP "\(bu" 4
+\&\f(CW\*(C`CHECKMK_INTEGRITY_SPOOL=/path\*(C'\fR: The path to the spool file
 .RE
 .RS 4
 .RE
@@ -278,17 +271,13 @@ The result of the check is written to a spool file in the same format as
 Check \s-1MK\s0 local checks <https://docs.checkmk.com/latest/en/localchecks.html>.
 .Sp
 Options:
-.ie n .IP """CHECKMK_SNAPSHOTS_SPOOL=/path"": The path to the spool file" 4
-.el .IP "\f(CWCHECKMK_SNAPSHOTS_SPOOL=/path\fR: The path to the spool file" 4
-.IX Item "CHECKMK_SNAPSHOTS_SPOOL=/path: The path to the spool file"
-.PD 0
-.ie n .IP """CHECKMK_SNAPSHOTS_THRESHOLDS=period:num_crit:num_warn"": The period of time to check, the warning threshold, and te critical threshold (e.g. ""1day:6:10"")" 4
-.el .IP "\f(CWCHECKMK_SNAPSHOTS_THRESHOLDS=period:num_crit:num_warn\fR: The period of time to check, the warning threshold, and te critical threshold (e.g. \f(CW1day:6:10\fR)" 4
-.IX Item "CHECKMK_SNAPSHOTS_THRESHOLDS=period:num_crit:num_warn: The period of time to check, the warning threshold, and te critical threshold (e.g. 1day:6:10)"
+.IP "\(bu" 4
+\&\f(CW\*(C`CHECKMK_SNAPSHOTS_SPOOL=/path\*(C'\fR: The path to the spool file
+.IP "\(bu" 4
+\&\f(CW\*(C`CHECKMK_SNAPSHOTS_THRESHOLDS=period:num_crit:num_warn\*(C'\fR: The period of time to check, the warning threshold, and te critical threshold (e.g. \f(CW\*(C`1day:6:10\*(C'\fR)
 .RE
 .RS 4
 .RE
-.PD
 .PP
 \&\f(CW\*(C`repo\-mounted.pre\*(C'\fR
 .Sp
@@ -345,16 +334,14 @@ In the same folder as the config file,
 there is a \f(CW\*(C`hooks\*(C'\fR directory
 where you can place executable hooks to run before or after the restic command.
 Several example hooks are provided that implement the following features:
-.IP "Check to make sure a repository is mounted before taking a backup" 4
-.IX Item "Check to make sure a repository is mounted before taking a backup"
-.PD 0
-.IP "Initialize the repo if it hasn't yet been initialized" 4
-.IX Item "Initialize the repo if it hasn't yet been initialized"
-.IP "Do an integrity check after pruning the repository" 4
-.IX Item "Do an integrity check after pruning the repository"
-.IP "Check that the number of snapshots taken recently is above some threshold" 4
-.IX Item "Check that the number of snapshots taken recently is above some threshold"
-.PD
+.IP "\(bu" 4
+Check to make sure a repository is mounted before taking a backup
+.IP "\(bu" 4
+Initialize the repo if it hasn't yet been initialized
+.IP "\(bu" 4
+Do an integrity check after pruning the repository
+.IP "\(bu" 4
+Check that the number of snapshots taken recently is above some threshold
 .PP
 Some of these hooks have additional configuration settings in the config file.
 To use a hook, remove its \f(CW\*(C`.disabled\*(C'\fR extension.
