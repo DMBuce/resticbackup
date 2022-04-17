@@ -45,7 +45,7 @@ SED_INPLACE = sed -i
 
 PACKAGE   = resticbackup
 PROG      = resticbackup
-#VERSION   = 0.0.0
+VERSION   = $(shell ./bin/resticbackup --version)
 BUGREPORT = https://github.com/DMBuce/resticbackup/issues
 URL       = https://github.com/DMBuce/resticbackup
 
@@ -64,7 +64,7 @@ INSTALL_FILES     = $(BINFILES_INSTALL) $(ETCFILES_INSTALL) $(MANFILES_INSTALL)
 INSTALL_DIRS      = $(sort $(dir $(INSTALL_FILES)))
 
 .PHONY: all
-all: doc
+all:
 
 .PHONY: install
 install: all installdirs $(INSTALL_FILES)
@@ -83,7 +83,7 @@ installdirs: $(INSTALL_DIRS)
 doc: $(DOCFILES)
 
 doc/%.1: doc/%.1.pod
-	pod2man -c $(PACKAGE) -r 0.r$(shell git rev-list --count HEAD).g$(shell git rev-parse --short HEAD) -n `echo $* | tr a-z A-Z` $< > $@
+	pod2man -c $(PACKAGE) -r $(VERSION) -n `echo $* | tr a-z A-Z` $< > $@
 
 doc/%.txt: doc/%.pod
 	pod2text $< > $@

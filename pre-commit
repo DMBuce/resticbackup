@@ -1,5 +1,30 @@
 #!/bin/bash
-# update docs every commit
+# update docs and version every commit
+
+# update version
+verfile=bin/resticbackup
+updatever() {
+	local oldver="$(./"$verfile" --version)"
+	local newver="${oldver%.*}.$(( ${oldver##*.}+1 ))"
+	echo "Updating version from $oldver to $newver"
+	sed -i "/version=/ s/=.*/=$newver/" "$verfile"
+}
+
+# bump version number if necessary
+if git diff --name-only --cached | grep -q -xF "$verfile"; then
+    # check if $verfile has no unstaged changes
+    if ! git status --porcelain | grep -q "^.M $verfile"; then
+        # update version and add $verfile to commit
+        updatever
+        echo "Adding $verfile to commit"
+        git add "$verfile"
+    # update the version and check if it changed
+    elif updatever; git diff "$verfile" | grep -q -e '^[+-] *version ='; then
+        # prompt user to add the updated version to the commit
+        echo "You need to add the version change with \`git add -p $verfile\` before committing."
+        exit 1
+    fi
+fi
 
 # update man pages
 make doc
