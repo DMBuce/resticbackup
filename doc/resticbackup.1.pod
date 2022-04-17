@@ -1,0 +1,237 @@
+=head1 NAME
+
+resticbackup - Restic with hooks.
+
+
+=head1 USAGE
+
+resticbackup ACTION
+
+=head1 DESCRIPTION
+
+When invoked as C<resticbackup foo>, resticbackup will
+
+=over 4
+
+=item Run each C<*.pre> hook. See L</HOOKS> for details.
+
+=item Look up C<$RESTICBACKUP_FOO> in the config. See L</Configuration> for details.
+
+=item Run C<restic $RESTICBACKUP_FOO>.
+
+=item Run each C<*.post> hook. See L</HOOKS> for details.
+
+=back
+
+Invoking resticbackup as C<resticbackup_foo> or C<restic_foo>
+with no other arguments
+is equivalent to invoking it as C<resticbackup foo>.
+
+=head1 CONFIGURATION
+
+The location of the configuration directory
+varies depending on how resticbackup was installed.
+Usually it is found at C</etc/resticbackup.d> or C</usr/local/etc/resticbackup.d> .
+
+The file named C<config> within this directory is the config file.
+The format of this file is bash shell.
+Config options are set as shell variables,
+e.g. C<OPTION=value>.
+Options that are not use the environment variable of the same name,
+or a default if no such environment variable is defined.
+Values that contain whitespace must be quoted,
+e.g. C<OPTION="my value"> or C<OPTION='my value'>.
+Other shell expansion rules apply.
+See L<bash/Parameters> for details.
+
+Each config option is described below.
+
+B<RESTIC_PASSWORD_FILE>,
+B<RESTIC_PASSWORD_COMMAND>,
+B<RESTIC_REPOSITORY>,
+B<RESTIC_REPOSITORY_FILE>,
+etc.
+
+=over 4
+
+Config options are exported to restic's environment,
+so all of restic's environment variables are valid config options.
+See
+L<https://restic.readthedocs.io/en/latest/040_backup.html#environment-variables>
+for details.
+
+=back
+
+B<LOG_FILE>
+
+=over 4
+
+Controls logging behavior.
+Use '-' to log to stdout,
+'syslog' to log to syslog (requires logger),
+or a filename to log to a file.
+
+Default: -
+
+=back
+
+B<RESTICBACKUP_*>
+
+=over 4
+
+Each config option that starts with C<RESTICBACKUP_>
+defines an action that can be invoked from the command line.
+The action's name is derived from the option name by removing C<RESTICBACKUP_>
+and converting to lowercase.
+When invoking an action, the option's value is passed as arguments to restic.
+
+For example, C<RESTICBACKUP_FOO="snapshots -v"> will cause C<resticbackup foo>
+to run C<restic snapshots -v> .
+
+=back
+
+B<Hook Options>
+
+Hooks may have their own custom options.
+See L<HOOKS> for details.
+
+=head1 HOOKS
+
+In the same folder as the config file,
+there is a C<hooks> directory
+where you can place hooks to run before or after the restic command.
+A hook is any executable that ends in C<.pre> or C<.post> .
+C<resticbackup> will run C<*.pre> hooks before running restic,
+and C<*.post> hooks afterward.
+
+Pre hooks are passed two arguments:
+the status code of the last pre hook that failed
+(or C<0> if no hooks failed),
+and the action about to be performed
+(e.g. for C<resticbackup backup>, the action is C<backup>).
+If any pre hook fails,
+resticbackup will exit without running the restic command.
+
+Post hooks are also passed two arguments:
+the status code of the restic command that was run,
+and the action that was performed.
+
+Each hook runs in a modified environment
+that includes the options set in the config file.
+
+Several example hooks are provided with resticbackup.
+Their behavior and configuration options are described below.
+
+B<check-integ.post>
+
+=over 4
+
+Does an integrity check when running C<resticbackup prune>.
+The result of the check is written to a spool file in the same format as
+L<Check MK local checks|https://docs.checkmk.com/latest/en/localchecks.html>.
+
+The config option
+controls the path to the spool file.
+
+Options:
+
+=over 4
+=item C<CHECKMK_INTEGRITY_SPOOL=/path>: The path to the spool file
+=back
+
+=back
+
+B<check-snaps.post>
+
+=over 4
+
+Checks that the number of snapshots taken recently is above some threshold.
+The result of the check is written to a spool file in the same format as
+L<Check MK local checks|https://docs.checkmk.com/latest/en/localchecks.html>.
+
+Options:
+
+=over 4
+=item C<CHECKMK_SNAPSHOTS_SPOOL=/path>: The path to the spool file
+=item C<CHECKMK_SNAPSHOTS_THRESHOLDS=period:num_crit:num_warn>: The period of time to check, the warning threshold, and te critical threshold (e.g. C<1day:6:10>)
+=back
+
+=back
+
+C<repo-mounted.pre>
+
+=over 4
+
+Checks to make sure that C<$RESTIC_REPOSITORY> is mounted before taking a backup.
+
+=back
+
+C<z-init-repo.pre>
+
+=over 4
+
+Initializes the repo if it hasn't yet been initialized.
+
+=back
+
+=head1 EXAMPLES
+
+In order to use resticbackup,
+you will likely need to define a password and repository in the config file
+(usually located at C</etc/resticbackup.d> or C</usr/local/etc/resticbackup.d>).
+
+	RESTIC_PASSWORD_FILE=/etc/resticbackup.d/password
+	RESTIC_REPOSITORY=/backup/restic
+
+You will also need to make sure that any custom actions are configured.
+There are two example actions in the default config:
+
+    RESTICBACKUP_BACKUP="backup -v --exclude-file=/etc/resticbackup.d/exclude /"
+    RESTICBACKUP_PRUNE="forget --prune --keep-hourly 12 --keep-daily 7 --keep-weekly 4 --keep-monthly 3"
+
+These settings will run the appropriate restic subcommands
+when invoking C<resticbackup backup> and C<resticbackup prune>.
+
+You can configure resticbackup to run any restic command in this way.
+E.g. if you were to add the following setting,
+C<resticbackup snap> would run C<restic snapshots>
+
+    RESTICBACKUP_SNAP=snapshots
+
+You can use symlinks to run restic commands
+without passing any arguments to resticbackup.
+For example, to run C<resticbackup backup> daily and C<resticbackup prune> weekly
+(assumes that cron is correctly configured)
+
+	ln -s `which resticbackup` /etc/cron.daily/restic_backup
+	ln -s `which resticbackup` /etc/cron.daily/resticbackup_prune
+
+In the same folder as the config file,
+there is a C<hooks> directory
+where you can place executable hooks to run before or after the restic command.
+Several example hooks are provided that implement the following features:
+
+=over 4
+
+=item Check to make sure a repository is mounted before taking a backup
+
+=item Initialize the repo if it hasn't yet been initialized
+
+=item Do an integrity check after pruning the repository
+
+=item Check that the number of snapshots taken recently is above some threshold
+
+=back
+
+Some of these hooks have additional configuration settings in the config file.
+To use a hook, remove its C<.disabled> extension.
+
+=head1 AUTHORS
+
+resticbackup was written by L<DMBuce|https://github.com/DMBuce> .
+
+=head1 DISTRIBUTION
+
+The latest version of resticbackup can be downloaded from
+https://github.com/DMBuce/resticbackup .
+
