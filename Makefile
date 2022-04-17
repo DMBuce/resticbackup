@@ -83,7 +83,7 @@ installdirs: $(INSTALL_DIRS)
 doc: $(DOCFILES)
 
 doc/%.1: doc/%.1.pod
-	pod2man -c $(PACKAGE) -n `echo $* | tr a-z A-Z` $< > $@
+	pod2man -c $(PACKAGE) -r 0.r$(shell git rev-list --count HEAD).g$(shell git rev-parse --short HEAD) -n `echo $* | tr a-z A-Z` $< > $@
 
 doc/%.txt: doc/%.pod
 	pod2text $< > $@
