@@ -60,9 +60,10 @@
 
 <pre><code>OPTION=value</code></pre>
 
-<p>Options that are not use the environment variable of the same name, or a default if no such environment variable is defined. Values that contain whitespace must be quoted, for exxample:</p>
+<p>Options that are not use the environment variable of the same name, or a default if no such environment variable is defined. Values that contain whitespace must be quoted, for example:</p>
 
-<p>OPTION=&#39;my value&#39; OPTION=&quot;my value&quot;</p>
+<pre><code>OPTION=&#39;my value&#39;
+OPTION=&quot;my value&quot;</code></pre>
 
 <p>Other shell expansion rules apply. See <a>&quot;Parameters&quot; in <code>man bash</code></a> for details.</p>
 
@@ -72,17 +73,7 @@
 
 <ul>
 
-<p>Config options are exported to restic&#39;s environment, so all of restic&#39;s environment variables are valid config options. See <a href="https://restic.readthedocs.io/en/latest/040_backup.html#environment-variables">https://restic.readthedocs.io/en/latest/040_backup.html#environment-variables</a> for details.</p>
-
-</ul>
-
-<p><b>LOG_FILE</b></p>
-
-<ul>
-
-<p>Controls logging behavior. Use &#39;-&#39; to log to stdout, &#39;syslog&#39; to log to syslog (requires logger), or a filename to log to a file.</p>
-
-<p>Default: -</p>
+<p>Config options are exported to restic&#39;s environment, so all of restic&#39;s environment variables are valid config options. See <a href="https://restic.readthedocs.io/en/latest/040_backup.html#environment-variables">restic documentation</a> for details.</p>
 
 </ul>
 
@@ -96,17 +87,31 @@
 
 </ul>
 
-<p><b>Hook Options</b></p>
+<p><b>LOG_FILE</b></p>
+
+<ul>
+
+<p>Controls logging behavior. Use &#39;-&#39; to log to stdout, &#39;syslog&#39; to log to syslog (requires logger), or a filename to log to a file.</p>
+
+<p>Default: -</p>
+
+</ul>
+
+<p><b>Other Options</b></p>
+
+<ul>
 
 <p>Hooks may have their own custom options. See <a>HOOKS</a> for details.</p>
 
+</ul>
+
 <h1 id="HOOKS">HOOKS</h1>
 
-<p>In the same folder as the config file, there is a <code>hooks</code> directory where you can place hooks to run before or after the restic command. A hook is any executable that ends in <code>.pre</code> or <code>.post</code> . <code>resticbackup</code> will run <code>*.pre</code> hooks before running restic, and <code>*.post</code> hooks afterward.</p>
+<p>In the same folder as the config file, there is a <code>hooks</code> directory where you can place hooks to run before or after the restic command. A hook is any executable that ends in <code>.pre</code> or <code>.post</code> . <code>resticbackup</code> will run *.pre hooks before running restic, and *.post hooks afterward.</p>
 
-<p>Pre hooks are passed two arguments: the status code of the last pre hook that failed (or <code>0</code> if no hooks failed), and the action about to be performed (e.g. for <code>resticbackup backup</code>, the action is <code>backup</code>). If any pre hook fails, resticbackup will exit without running the restic command.</p>
+<p>Pre hooks are passed two arguments: the exit code of the last pre hook that failed (or <code>0</code> if no hooks failed), and the action about to be performed (e.g. for <code>resticbackup backup</code>, the action is <code>backup</code>). If any pre hook fails, resticbackup will exit without running the restic command.</p>
 
-<p>Post hooks are also passed two arguments: the status code of the restic command that was run, and the action that was performed.</p>
+<p>Post hooks are also passed two arguments: the exit code of the restic command that was run, and the action that was performed.</p>
 
 <p>Each hook runs in a modified environment that includes the options set in the config file.</p>
 
@@ -124,7 +129,7 @@
 
 <ul>
 
-<li><p><code>CHECKMK_INTEGRITY_SPOOL=/path</code>: The path to the spool file</p>
+<li><p><b>CHECKMK_INTEGRITY_SPOOL</b>=/path - The path to the spool file</p>
 
 </li>
 </ul>
@@ -141,10 +146,10 @@
 
 <ul>
 
-<li><p><code>CHECKMK_SNAPSHOTS_SPOOL=/path</code>: The path to the spool file</p>
+<li><p><b>CHECKMK_SNAPSHOTS_SPOOL</b>=/path - The path to the spool file</p>
 
 </li>
-<li><p><code>CHECKMK_SNAPSHOTS_THRESHOLDS=period:num_crit:num_warn</code>: The period of time to check, the warning threshold, and te critical threshold (e.g. <code>1day:6:10</code>)</p>
+<li><p><b>CHECKMK_SNAPSHOTS_THRESHOLDS</b>=period:num_crit:num_warn - The period of time to check, the warning threshold, and the critical threshold (e.g. <code>1day:6:10</code>)</p>
 
 </li>
 </ul>
@@ -169,7 +174,7 @@
 
 <h1 id="EXAMPLES">EXAMPLES</h1>
 
-<p>In order to use resticbackup, you will likely need to define a password and repository in the config file (usually located at /etc/resticbackup.d or /usr/local/etc/resticbackup.d).</p>
+<p>In order to use resticbackup, you will likely need to define a password and repository in the config file (usually located at /etc/resticbackup.d/config or /usr/local/etc/resticbackup.d/config).</p>
 
 <pre><code>RESTIC_PASSWORD_FILE=/etc/resticbackup.d/password
 RESTIC_REPOSITORY=/backup/restic</code></pre>
@@ -185,7 +190,7 @@ RESTICBACKUP_PRUNE=&quot;forget --prune --keep-hourly 12 --keep-daily 7 --keep-w
 
 <pre><code>RESTICBACKUP_SNAP=snapshots</code></pre>
 
-<p>You can use symlinks to run restic commands without passing any arguments to resticbackup. For example, to run <code>resticbackup backup</code> daily and <code>resticbackup prune</code> weekly (assumes that cron is correctly configured)</p>
+<p>You can use symlinks to run restic commands without passing any arguments to resticbackup. For example, under many cron setups you can run <code>resticbackup backup</code> daily and <code>resticbackup prune</code> weekly with</p>
 
 <pre><code>ln -s `which resticbackup` /etc/cron.daily/restic_backup
 ln -s `which resticbackup` /etc/cron.daily/resticbackup_prune</code></pre>

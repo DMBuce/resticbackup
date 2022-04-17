@@ -32,9 +32,10 @@ CONFIGURATION
 
     Options that are not use the environment variable of the same name, or a
     default if no such environment variable is defined. Values that contain
-    whitespace must be quoted, for exxample:
+    whitespace must be quoted, for example:
 
-    OPTION='my value' OPTION="my value"
+            OPTION='my value'
+            OPTION="my value"
 
     Other shell expansion rules apply. See "Parameters" in "man bash" for
     details.
@@ -45,16 +46,10 @@ CONFIGURATION
     RESTIC_REPOSITORY_FILE, etc.
 
         Config options are exported to restic's environment, so all of
-        restic's environment variables are valid config options. See
+        restic's environment variables are valid config options. See restic
+        documentation
         <https://restic.readthedocs.io/en/latest/040_backup.html#environment
         -variables> for details.
-
-    LOG_FILE
-
-        Controls logging behavior. Use '-' to log to stdout, 'syslog' to log
-        to syslog (requires logger), or a filename to log to a file.
-
-        Default: -
 
     RESTICBACKUP_*
 
@@ -67,24 +62,30 @@ CONFIGURATION
         For example, "RESTICBACKUP_FOO="snapshots -v"" will cause
         "resticbackup foo" to run "restic snapshots -v" .
 
-    Hook Options
+    LOG_FILE
 
-    Hooks may have their own custom options. See HOOKS for details.
+        Controls logging behavior. Use '-' to log to stdout, 'syslog' to log
+        to syslog (requires logger), or a filename to log to a file.
+
+        Default: -
+
+    Other Options
+
+        Hooks may have their own custom options. See HOOKS for details.
 
 HOOKS
     In the same folder as the config file, there is a "hooks" directory
     where you can place hooks to run before or after the restic command. A
     hook is any executable that ends in ".pre" or ".post" . "resticbackup"
-    will run "*.pre" hooks before running restic, and "*.post" hooks
-    afterward.
+    will run *.pre hooks before running restic, and *.post hooks afterward.
 
-    Pre hooks are passed two arguments: the status code of the last pre hook
+    Pre hooks are passed two arguments: the exit code of the last pre hook
     that failed (or 0 if no hooks failed), and the action about to be
     performed (e.g. for "resticbackup backup", the action is "backup"). If
     any pre hook fails, resticbackup will exit without running the restic
     command.
 
-    Post hooks are also passed two arguments: the status code of the restic
+    Post hooks are also passed two arguments: the exit code of the restic
     command that was run, and the action that was performed.
 
     Each hook runs in a modified environment that includes the options set
@@ -104,7 +105,7 @@ HOOKS
 
         Options:
 
-        *   "CHECKMK_INTEGRITY_SPOOL=/path": The path to the spool file
+        *   CHECKMK_INTEGRITY_SPOOL=/path - The path to the spool file
 
     check-snaps.post
 
@@ -115,10 +116,10 @@ HOOKS
 
         Options:
 
-        *   "CHECKMK_SNAPSHOTS_SPOOL=/path": The path to the spool file
+        *   CHECKMK_SNAPSHOTS_SPOOL=/path - The path to the spool file
 
-        *   "CHECKMK_SNAPSHOTS_THRESHOLDS=period:num_crit:num_warn": The
-            period of time to check, the warning threshold, and te critical
+        *   CHECKMK_SNAPSHOTS_THRESHOLDS=period:num_crit:num_warn - The
+            period of time to check, the warning threshold, and the critical
             threshold (e.g. "1day:6:10")
 
     "repo-mounted.pre"
@@ -133,7 +134,7 @@ HOOKS
 EXAMPLES
     In order to use resticbackup, you will likely need to define a password
     and repository in the config file (usually located at
-    /etc/resticbackup.d or /usr/local/etc/resticbackup.d).
+    /etc/resticbackup.d/config or /usr/local/etc/resticbackup.d/config).
 
             RESTIC_PASSWORD_FILE=/etc/resticbackup.d/password
             RESTIC_REPOSITORY=/backup/restic
@@ -154,9 +155,8 @@ EXAMPLES
             RESTICBACKUP_SNAP=snapshots
 
     You can use symlinks to run restic commands without passing any
-    arguments to resticbackup. For example, to run "resticbackup backup"
-    daily and "resticbackup prune" weekly (assumes that cron is correctly
-    configured)
+    arguments to resticbackup. For example, under many cron setups you can
+    run "resticbackup backup" daily and "resticbackup prune" weekly with
 
             ln -s `which resticbackup` /etc/cron.daily/restic_backup
             ln -s `which resticbackup` /etc/cron.daily/resticbackup_prune
