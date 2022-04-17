@@ -189,7 +189,7 @@ RESTICBACKUP_PRUNE=&quot;forget --prune --keep-hourly 12 --keep-daily 7 --keep-w
 <p>You can use symlinks to run restic commands without passing any arguments to resticbackup. For example, under many cron setups you can run <code>resticbackup backup</code> daily and <code>resticbackup prune</code> weekly with</p>
 
 <pre><code>ln -s `which resticbackup` /etc/cron.daily/restic_backup
-ln -s `which resticbackup` /etc/cron.daily/resticbackup_prune</code></pre>
+ln -s `which resticbackup` /etc/cron.weekly/resticbackup_prune</code></pre>
 
 <p>In the same folder as the config file, there is a <code>hooks</code> directory where you can place executable hooks to run before or after the restic command. Several example hooks are provided that implement the following features:</p>
 

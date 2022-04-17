@@ -155,7 +155,7 @@ EXAMPLES
     run "resticbackup backup" daily and "resticbackup prune" weekly with
 
             ln -s `which resticbackup` /etc/cron.daily/restic_backup
-            ln -s `which resticbackup` /etc/cron.daily/resticbackup_prune
+            ln -s `which resticbackup` /etc/cron.weekly/resticbackup_prune
 
     In the same folder as the config file, there is a "hooks" directory
     where you can place executable hooks to run before or after the restic

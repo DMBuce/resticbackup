@@ -230,7 +230,7 @@ under many cron setups you can
 run C<resticbackup backup> daily and C<resticbackup prune> weekly with
 
 	ln -s `which resticbackup` /etc/cron.daily/restic_backup
-	ln -s `which resticbackup` /etc/cron.daily/resticbackup_prune
+	ln -s `which resticbackup` /etc/cron.weekly/resticbackup_prune
 
 In the same folder as the config file,
 there is a C<hooks> directory
