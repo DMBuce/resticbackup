@@ -9,7 +9,7 @@ The GitHub repository has a PKGBUILD for Arch Linux and a Makefile for other dis
 ### Usage
 
 The quickest way to get started is by running through the examples in the man page:
-TODO link here
+https://dmbuce.github.io/resticbackup/resticbackup.1.html#EXAMPLES
 
 ### Documentation
 
