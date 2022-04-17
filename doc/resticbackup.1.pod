@@ -15,7 +15,7 @@ When invoked as C<resticbackup foo>, resticbackup will
 
 =item Run each C<*.pre> hook. See L</HOOKS> for details.
 
-=item Look up C<$RESTICBACKUP_FOO> in the config. See L</Configuration> for details.
+=item Look up C<$RESTICBACKUP_FOO> in the config. See L</CONFIGURATION> for details.
 
 =item Run C<restic $RESTICBACKUP_FOO>.
 

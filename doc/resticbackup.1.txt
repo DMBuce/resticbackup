@@ -8,7 +8,7 @@ DESCRIPTION
     When invoked as "resticbackup foo", resticbackup will
 
     Run each "*.pre" hook. See "HOOKS" for details.
-    Look up $RESTICBACKUP_FOO in the config. See "Configuration" for
+    Look up $RESTICBACKUP_FOO in the config. See "CONFIGURATION" for
     details.
     Run "restic $RESTICBACKUP_FOO".
     Run each "*.post" hook. See "HOOKS" for details.
