@@ -15,19 +15,19 @@ When invoked as C<resticbackup foo>, resticbackup will
 
 =item *
 
-Run each *.pre hook. See L</HOOKS> for details.
+run each *.pre hook. See L</HOOKS> for details.
 
 =item *
 
-Look up $RESTICBACKUP_FOO in the config. See L</CONFIGURATION> for details.
+look up $RESTICBACKUP_FOO in the config. See L</CONFIGURATION> for details.
 
 =item *
 
-Run C<restic $RESTICBACKUP_FOO>.
+run C<restic $RESTICBACKUP_FOO>.
 
 =item *
 
-Run each *.post hook. See L</HOOKS> for details.
+run each *.post hook. See L</HOOKS> for details.
 
 =back
 
@@ -37,18 +37,15 @@ is equivalent to invoking it as C<resticbackup foo>.
 
 =head1 CONFIGURATION
 
-The location of the configuration directory
+The location of the config file
 varies depending on how resticbackup was installed.
-Usually it is found at /etc/resticbackup.d or /usr/local/etc/resticbackup.d .
-
-The file named C<config> within this directory is the config file.
+Usually it is found at
+/etc/resticbackup.d/config or /usr/local/etc/resticbackup.d/config .
 The format of this file is bash shell.
 Config options are set as shell variables, for example:
 
 	OPTION=value
 
-Options that are not use the environment variable of the same name,
-or a default if no such environment variable is defined.
 Values that contain whitespace must be quoted, for example:
 
 	OPTION='my value'
@@ -57,6 +54,8 @@ Values that contain whitespace must be quoted, for example:
 Other shell expansion rules apply.
 See L<C<man bash>/Parameters> for details.
 
+Options that are not defined use the environment variable of the same name.
+Some options use a default value if no environment variable is defined.
 Each config option is described below.
 
 B<RESTIC_PASSWORD_FILE>,
@@ -122,15 +121,15 @@ C<resticbackup> will run *.pre hooks before running restic,
 and *.post hooks afterward.
 
 Pre hooks are passed two arguments:
-the exit code of the last pre hook that failed
+the exit status of the last pre hook that failed
 (or C<0> if no hooks failed),
 and the action about to be performed
 (e.g. for C<resticbackup backup>, the action is C<backup>).
 If any pre hook fails,
-resticbackup will exit without running the restic command.
+resticbackup will exit without running any restic commands or post hooks.
 
 Post hooks are also passed two arguments:
-the exit code of the restic command that was run,
+the exit status of the restic command that was run,
 and the action that was performed.
 
 Each hook runs in a modified environment
@@ -146,9 +145,6 @@ B<check-integ.post>
 Does an integrity check when running C<resticbackup prune>.
 The result of the check is written to a spool file in the same format as
 L<Check MK local checks|https://docs.checkmk.com/latest/en/localchecks.html>.
-
-The config option
-controls the path to the spool file.
 
 Options:
 
@@ -180,13 +176,13 @@ B<CHECKMK_SNAPSHOTS_SPOOL>=/path - The path to the spool file
 
 =item *
 
-B<CHECKMK_SNAPSHOTS_THRESHOLDS>=period:num_crit:num_warn - The period of time to check, the warning threshold, and the critical threshold (e.g. C<1day:6:10>)
+B<CHECKMK_SNAPSHOTS_THRESHOLDS>=period:num_crit:num_warn - The period of time to check, the critical threshold, and the warning threshold (e.g. C<1day:6:10>)
 
 =back
 
 =back
 
-C<repo-mounted.pre>
+B<repo-mounted.pre>
 
 =over 4
 
@@ -194,7 +190,7 @@ Checks to make sure that C<$RESTIC_REPOSITORY> is mounted before taking a backup
 
 =back
 
-C<z-init-repo.pre>
+B<z-init-repo.pre>
 
 =over 4
 
@@ -212,7 +208,7 @@ or /usr/local/etc/resticbackup.d/config).
 	RESTIC_PASSWORD_FILE=/etc/resticbackup.d/password
 	RESTIC_REPOSITORY=/backup/restic
 
-You will also need to make sure that any custom actions are configured.
+You will also need to make sure that one or more actions are configured.
 There are two example actions in the default config:
 
 	RESTICBACKUP_BACKUP="backup -v --exclude-file=/etc/resticbackup.d/exclude /"

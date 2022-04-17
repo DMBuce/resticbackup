@@ -36,16 +36,16 @@
 
 <ul>
 
-<li><p>Run each *.pre hook. See <a href="#HOOKS">&quot;HOOKS&quot;</a> for details.</p>
+<li><p>run each *.pre hook. See <a href="#HOOKS">&quot;HOOKS&quot;</a> for details.</p>
 
 </li>
-<li><p>Look up $RESTICBACKUP_FOO in the config. See <a href="#CONFIGURATION">&quot;CONFIGURATION&quot;</a> for details.</p>
+<li><p>look up $RESTICBACKUP_FOO in the config. See <a href="#CONFIGURATION">&quot;CONFIGURATION&quot;</a> for details.</p>
 
 </li>
-<li><p>Run <code>restic $RESTICBACKUP_FOO</code>.</p>
+<li><p>run <code>restic $RESTICBACKUP_FOO</code>.</p>
 
 </li>
-<li><p>Run each *.post hook. See <a href="#HOOKS">&quot;HOOKS&quot;</a> for details.</p>
+<li><p>run each *.post hook. See <a href="#HOOKS">&quot;HOOKS&quot;</a> for details.</p>
 
 </li>
 </ul>
@@ -54,20 +54,18 @@
 
 <h1 id="CONFIGURATION">CONFIGURATION</h1>
 
-<p>The location of the configuration directory varies depending on how resticbackup was installed. Usually it is found at /etc/resticbackup.d or /usr/local/etc/resticbackup.d .</p>
-
-<p>The file named <code>config</code> within this directory is the config file. The format of this file is bash shell. Config options are set as shell variables, for example:</p>
+<p>The location of the config file varies depending on how resticbackup was installed. Usually it is found at /etc/resticbackup.d/config or /usr/local/etc/resticbackup.d/config . The format of this file is bash shell. Config options are set as shell variables, for example:</p>
 
 <pre><code>OPTION=value</code></pre>
 
-<p>Options that are not use the environment variable of the same name, or a default if no such environment variable is defined. Values that contain whitespace must be quoted, for example:</p>
+<p>Values that contain whitespace must be quoted, for example:</p>
 
 <pre><code>OPTION=&#39;my value&#39;
 OPTION=&quot;my value&quot;</code></pre>
 
 <p>Other shell expansion rules apply. See <a>&quot;Parameters&quot; in <code>man bash</code></a> for details.</p>
 
-<p>Each config option is described below.</p>
+<p>Options that are not defined use the environment variable of the same name. Some options use a default value if no environment variable is defined. Each config option is described below.</p>
 
 <p><b>RESTIC_PASSWORD_FILE</b>, <b>RESTIC_PASSWORD_COMMAND</b>, <b>RESTIC_REPOSITORY</b>, <b>RESTIC_REPOSITORY_FILE</b>, etc.</p>
 
@@ -109,9 +107,9 @@ OPTION=&quot;my value&quot;</code></pre>
 
 <p>In the same folder as the config file, there is a <code>hooks</code> directory where you can place hooks to run before or after the restic command. A hook is any executable that ends in <code>.pre</code> or <code>.post</code> . <code>resticbackup</code> will run *.pre hooks before running restic, and *.post hooks afterward.</p>
 
-<p>Pre hooks are passed two arguments: the exit code of the last pre hook that failed (or <code>0</code> if no hooks failed), and the action about to be performed (e.g. for <code>resticbackup backup</code>, the action is <code>backup</code>). If any pre hook fails, resticbackup will exit without running the restic command.</p>
+<p>Pre hooks are passed two arguments: the exit status of the last pre hook that failed (or <code>0</code> if no hooks failed), and the action about to be performed (e.g. for <code>resticbackup backup</code>, the action is <code>backup</code>). If any pre hook fails, resticbackup will exit without running any restic commands or post hooks.</p>
 
-<p>Post hooks are also passed two arguments: the exit code of the restic command that was run, and the action that was performed.</p>
+<p>Post hooks are also passed two arguments: the exit status of the restic command that was run, and the action that was performed.</p>
 
 <p>Each hook runs in a modified environment that includes the options set in the config file.</p>
 
@@ -122,8 +120,6 @@ OPTION=&quot;my value&quot;</code></pre>
 <ul>
 
 <p>Does an integrity check when running <code>resticbackup prune</code>. The result of the check is written to a spool file in the same format as <a href="https://docs.checkmk.com/latest/en/localchecks.html">Check MK local checks</a>.</p>
-
-<p>The config option controls the path to the spool file.</p>
 
 <p>Options:</p>
 
@@ -149,14 +145,14 @@ OPTION=&quot;my value&quot;</code></pre>
 <li><p><b>CHECKMK_SNAPSHOTS_SPOOL</b>=/path - The path to the spool file</p>
 
 </li>
-<li><p><b>CHECKMK_SNAPSHOTS_THRESHOLDS</b>=period:num_crit:num_warn - The period of time to check, the warning threshold, and the critical threshold (e.g. <code>1day:6:10</code>)</p>
+<li><p><b>CHECKMK_SNAPSHOTS_THRESHOLDS</b>=period:num_crit:num_warn - The period of time to check, the critical threshold, and the warning threshold (e.g. <code>1day:6:10</code>)</p>
 
 </li>
 </ul>
 
 </ul>
 
-<p><code>repo-mounted.pre</code></p>
+<p><b>repo-mounted.pre</b></p>
 
 <ul>
 
@@ -164,7 +160,7 @@ OPTION=&quot;my value&quot;</code></pre>
 
 </ul>
 
-<p><code>z-init-repo.pre</code></p>
+<p><b>z-init-repo.pre</b></p>
 
 <ul>
 
@@ -179,7 +175,7 @@ OPTION=&quot;my value&quot;</code></pre>
 <pre><code>RESTIC_PASSWORD_FILE=/etc/resticbackup.d/password
 RESTIC_REPOSITORY=/backup/restic</code></pre>
 
-<p>You will also need to make sure that any custom actions are configured. There are two example actions in the default config:</p>
+<p>You will also need to make sure that one or more actions are configured. There are two example actions in the default config:</p>
 
 <pre><code>RESTICBACKUP_BACKUP=&quot;backup -v --exclude-file=/etc/resticbackup.d/exclude /&quot;
 RESTICBACKUP_PRUNE=&quot;forget --prune --keep-hourly 12 --keep-daily 7 --keep-weekly 4 --keep-monthly 3&quot;</code></pre>

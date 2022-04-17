@@ -7,32 +7,27 @@ USAGE
 DESCRIPTION
     When invoked as "resticbackup foo", resticbackup will
 
-    *   Run each *.pre hook. See "HOOKS" for details.
+    *   run each *.pre hook. See "HOOKS" for details.
 
-    *   Look up $RESTICBACKUP_FOO in the config. See "CONFIGURATION" for
+    *   look up $RESTICBACKUP_FOO in the config. See "CONFIGURATION" for
         details.
 
-    *   Run "restic $RESTICBACKUP_FOO".
+    *   run "restic $RESTICBACKUP_FOO".
 
-    *   Run each *.post hook. See "HOOKS" for details.
+    *   run each *.post hook. See "HOOKS" for details.
 
     Invoking resticbackup as "resticbackup_foo" or "restic_foo" with no
     other arguments is equivalent to invoking it as "resticbackup foo".
 
 CONFIGURATION
-    The location of the configuration directory varies depending on how
-    resticbackup was installed. Usually it is found at /etc/resticbackup.d
-    or /usr/local/etc/resticbackup.d .
-
-    The file named "config" within this directory is the config file. The
-    format of this file is bash shell. Config options are set as shell
-    variables, for example:
+    The location of the config file varies depending on how resticbackup was
+    installed. Usually it is found at /etc/resticbackup.d/config or
+    /usr/local/etc/resticbackup.d/config . The format of this file is bash
+    shell. Config options are set as shell variables, for example:
 
             OPTION=value
 
-    Options that are not use the environment variable of the same name, or a
-    default if no such environment variable is defined. Values that contain
-    whitespace must be quoted, for example:
+    Values that contain whitespace must be quoted, for example:
 
             OPTION='my value'
             OPTION="my value"
@@ -40,7 +35,9 @@ CONFIGURATION
     Other shell expansion rules apply. See "Parameters" in "man bash" for
     details.
 
-    Each config option is described below.
+    Options that are not defined use the environment variable of the same
+    name. Some options use a default value if no environment variable is
+    defined. Each config option is described below.
 
     RESTIC_PASSWORD_FILE, RESTIC_PASSWORD_COMMAND, RESTIC_REPOSITORY,
     RESTIC_REPOSITORY_FILE, etc.
@@ -79,13 +76,13 @@ HOOKS
     hook is any executable that ends in ".pre" or ".post" . "resticbackup"
     will run *.pre hooks before running restic, and *.post hooks afterward.
 
-    Pre hooks are passed two arguments: the exit code of the last pre hook
+    Pre hooks are passed two arguments: the exit status of the last pre hook
     that failed (or 0 if no hooks failed), and the action about to be
     performed (e.g. for "resticbackup backup", the action is "backup"). If
-    any pre hook fails, resticbackup will exit without running the restic
-    command.
+    any pre hook fails, resticbackup will exit without running any restic
+    commands or post hooks.
 
-    Post hooks are also passed two arguments: the exit code of the restic
+    Post hooks are also passed two arguments: the exit status of the restic
     command that was run, and the action that was performed.
 
     Each hook runs in a modified environment that includes the options set
@@ -100,8 +97,6 @@ HOOKS
         result of the check is written to a spool file in the same format as
         Check MK local checks
         <https://docs.checkmk.com/latest/en/localchecks.html>.
-
-        The config option controls the path to the spool file.
 
         Options:
 
@@ -119,15 +114,15 @@ HOOKS
         *   CHECKMK_SNAPSHOTS_SPOOL=/path - The path to the spool file
 
         *   CHECKMK_SNAPSHOTS_THRESHOLDS=period:num_crit:num_warn - The
-            period of time to check, the warning threshold, and the critical
+            period of time to check, the critical threshold, and the warning
             threshold (e.g. "1day:6:10")
 
-    "repo-mounted.pre"
+    repo-mounted.pre
 
         Checks to make sure that $RESTIC_REPOSITORY is mounted before taking
         a backup.
 
-    "z-init-repo.pre"
+    z-init-repo.pre
 
         Initializes the repo if it hasn't yet been initialized.
 
@@ -139,7 +134,7 @@ EXAMPLES
             RESTIC_PASSWORD_FILE=/etc/resticbackup.d/password
             RESTIC_REPOSITORY=/backup/restic
 
-    You will also need to make sure that any custom actions are configured.
+    You will also need to make sure that one or more actions are configured.
     There are two example actions in the default config:
 
             RESTICBACKUP_BACKUP="backup -v --exclude-file=/etc/resticbackup.d/exclude /"
