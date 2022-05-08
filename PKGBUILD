@@ -13,7 +13,7 @@ pkgrel=1
 pkgdesc="Restic with hooks."
 arch=(any)
 url="https://github.com/DMBuce/resticbackup"
-license=('unknown')
+license=('GPL3')
 groups=()
 depends=(
 )
