@@ -1,4 +1,6 @@
 
+## resticbackup
+
 `resticbackup` is a bash shell script for [Restic](https://restic.net/).
 It runs hooks before and after whatever restic commands you've configured.
 
