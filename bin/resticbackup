@@ -2,7 +2,7 @@
 
 # source config
 prog=resticbackup
-version=0.49
+version=0.50
 config="/etc/$prog.d/config"
 set -a
 . "$config"
@@ -11,7 +11,7 @@ set +a
 # vars
 LOG_FILE="${LOG_FILE--}"
 hooks="/etc/$prog.d/hooks"
-usage="Syntax: $prog <action>"
+usage="Usage: $prog <action>"
 
 # run as 'resticbackup foo' when called as 'restic_foo' or 'resticbackup_foo'
 if [[ $# == 0 && "${0##*/}" == restic_* ]]; then
