@@ -21,5 +21,5 @@ Project documentation can be found in these files:
 * README  - This document
 
 The changelog can be viewed on GitHub at
-https://github.com/DMBuce/music/commits/master .
+https://github.com/DMBuce/resticbackup/commits/master .
 
