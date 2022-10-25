@@ -16,6 +16,7 @@ url="https://github.com/DMBuce/resticbackup"
 license=('GPL3')
 groups=()
 depends=(
+  restic
 )
 makedepends=('git')
 provides=()
